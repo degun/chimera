@@ -1,0 +1,64 @@
+import React, { useEffect } from 'react';
+import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { DefaultButton } from 'office-ui-fabric-react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout, refreshToken } from '../../store/actions/authActions';
+import { selectMenu } from '../../store/actions/systemActions';
+import './Menu.sass';
+
+function Menu({logOut, refreshToken, setMenu, token, menu, admin}){
+    useEffect(() => {
+      const interval = setInterval( () => {
+        refreshToken(token)
+      }, 60000);
+      return () => clearInterval(interval);
+    }, [refreshToken, token]);
+    if(!token) return null;
+    function itemClicked(e){
+      setMenu(e.key.slice(1));
+    }
+    function logOutClicked(){
+      logOut();
+      return <Redirect to="/login" />
+    }
+    return (
+        <div id="menu">
+          <nav>
+            <Pivot linkSize={PivotLinkSize.normal} linkFormat={PivotLinkFormat.links} selectedKey={menu} onLinkClick={itemClicked}>
+              <PivotItem iconProps={{iconName: 'People'}} itemKey="0" headerText="Dashboard" onClick={() => setMenu("home")} onRenderItemLink={() => <Link to="/"><Icon iconName="Diagnostic" /> Dashboard</Link>} />
+              {admin ? <PivotItem itemKey="1" headerText="Users" onClick={() => setMenu("users")} onRenderItemLink={() => <Link to="/users"><Icon iconName="People" /> Users</Link>} /> : null}
+              {admin ?<PivotItem itemKey="2" headerText="Transactions" onClick={() => setMenu("transactions")} onRenderItemLink={() => <Link to="/transactions"><Icon iconName="Money" /> Transactions</Link>} /> : null}
+              {!admin ? <PivotItem itemKey="3" headerText="Profile" onClick={() => setMenu("profile")} onRenderItemLink={() => <Link to="/profile"><Icon iconName="PartyLeader" /> Profile</Link>} /> : null}
+              {admin ?<PivotItem itemKey="4" headerText="Transactions" onClick={() => setMenu("logs")} onRenderItemLink={() => <Link to="/logs"><Icon iconName="TextDocument" /> Logs</Link>} /> : null}
+            </Pivot>
+            <DefaultButton
+              className="logout"
+              allowDisabledFocus={true}
+              text="Logout"
+              onClick={() => logOutClicked()}
+              iconProps={{ iconName: 'Leave' }}
+            />
+          </nav>
+        </div>
+    )
+}
+
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token,
+    admin: state.auth.admin,
+    menu: state.system.menu
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logOut: () => dispatch(logout()),
+    setMenu: menu => dispatch(selectMenu(menu)),
+    refreshToken: token => dispatch(refreshToken(token))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

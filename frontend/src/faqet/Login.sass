@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap')
+
+@keyframes r
+    0%
+        transform: rotate(-180deg) 
+    100%
+        transform: rotate(0deg)
+    
+#login
+    width: 100vw
+    height: 100vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    .logo
+        display: flex
+        justify-content: center
+        align-items: flex-end
+        padding-bottom: 40px
+        img
+            width: 80px
+            animation: r 2s cubic-bezier(.17,.67,0,.98) forwards
+        .Chimera
+            font-family: 'Lexend Deca', Arial, Helvetica, sans-serif
+            font-weight: 900
+            font-size: 4em
+            padding-left: 20px
+    form 
+        width: 500px
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+        border: 1px solid #999
+        .ms-TextField
+            width: 80%
+            margin: 10px
+            label
+                text-align: left
+        button.login 
+            margin-top: 20px
