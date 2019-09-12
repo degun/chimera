@@ -5,7 +5,8 @@ const initialState = {
     error: null,
     loading: false,
     admin: false,
-    balance: 0
+    balance: 0,
+    id: 0
 }
 
 const authStart = (state, action) => {
@@ -36,7 +37,7 @@ const authFail = (state, action) => {
 }
 
 const updateBalance = (state, action) => {
-    return {...state, balance: action.balance}
+    return {...state, balance: parseFloat(action.balance)}
 }
 
 const authReducer = (state = initialState, action) => {

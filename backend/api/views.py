@@ -7,7 +7,6 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 from api.models import User, Transaction, UserProfile, Log
 from api.serializers import UserSerializer, TransactionSerializer, LogSerializer
-
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -18,8 +18,8 @@ export const getAllUsers = () => {
                 users: res.data
             })
         }).catch(e => {
-            console.log(e);
-            if(e.response.status === 401){
+            console.log(e.response);
+            if(e.response && e.response.status === 401){
                 dispatch(logout);
             }
         });
@@ -68,9 +68,11 @@ export const updateAdminLocally = () => {
     return (dispatch, getState) => {
         const state = getState();
         const {token, id} = state.auth;
+        console.log(token, id)
         axios.get(`http://localhost:8000/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
+            console.log(response);
             dispatch({type: types.ADMIN_UPDATE_BALANCE, balance: response.data.partner_data.balance});
         }).catch(e => {
             console.log(e);
@@ -89,11 +91,11 @@ export const addUser = (username, email, password, partner_data) => {
             headers: {"Authorization": bearer}
         }).then(res => {
             const {url, username, partner_data} = res.data;
-            const {balance, rate} = partner_data;
+            const {balance, Wrate, CCrate} = partner_data;
             dispatch({type: types.USERS_ADD_SUCCESS, user: res.data});
             dispatch({type: types.USERS_END_ADD});
             dispatch(updateAdminLocally());
-            dispatch(addLog(urltoid(url), logTypes.USER_ADD, `Added partner ${username} with initial balance ${numeral(parseFloat(balance)).format('0,0.00 $')} and rate ${rate}.`))
+            dispatch(addLog(urltoid(url), logTypes.USER_ADD, `Added partner ${username} with initial balance ${numeral(parseFloat(balance)).format('0,0.00 $')} Wire rate ${Wrate} and Credit Card rate ${CCrate}.`))
         }).catch(e => {
             dispatch({type: types.USERS_ADD_FAIL})
         })
@@ -108,9 +110,10 @@ export const editUser = (url, username, email, partner_data) => {
         const oldUsername = oldUser.username;
         const oldEmail = oldUser.email;
         const oldBalance = oldUser.partner_data.balance;
-        const oldRate = oldUser.partner_data.rate;
+        const oldWRate = oldUser.partner_data.Wrate;
+        const oldCCRate = oldUser.partner_data.CCrate;
         const admin = oldUser.is_staff;
-        const {balance, rate} = partner_data;
+        const {balance, Wrate, CCrate} = partner_data;
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
         axios.patch(url, {username, email, partner_data},{headers: {"Authorization": bearer}})
@@ -123,8 +126,9 @@ export const editUser = (url, username, email, partner_data) => {
             const changedUsername = (username !== oldUsername) ? ` username from ${oldUsername} to ${username},` : '';
             const changedEmail = (email !== oldEmail) ?  ` email from ${oldEmail} to ${email},` : '';
             const changedBalance = (parseFloat(balance) !== parseFloat(oldBalance)) ?  ` balance from ${numeral(parseFloat(oldBalance)).format('0,0.00 $')} to ${numeral(parseFloat(balance)).format('0,0.00 $')},` : '';
-            const changedRate = (rate !== oldRate) ?  ` rate from ${oldRate} to ${rate},` : '';
-            let message = `Updated ${adminOrPartner}: changed${changedUsername + changedEmail + changedBalance + changedRate}`.replace(/.$/,".");
+            const changedWRate = (Wrate !== oldWRate) ?  ` Wire rate from ${oldWRate} to ${Wrate},` : '';
+            const changedCCRate = (CCrate !== oldCCRate) ?  ` Credit Card rate from ${oldCCRate} to ${CCrate},` : '';
+            let message = `Updated ${adminOrPartner}: changed${changedUsername + changedEmail + changedBalance + changedWRate + changedCCRate}`.replace(/.$/,".");
             dispatch(addLog(urltoid(url), logTypes.USER_UPDATE, message))
         })
         .catch(e => dispatch({type: types.USERS_EDIT_FAIL, error: e}))
@@ -135,17 +139,19 @@ export const removeUser = url => {
     return (dispatch, getState) => {
         const state = getState();
         const token = state.auth.token;
+        const {users} = state.users;
+        const user = users.filter(u=> u.url === url)[0];
         const bearer = 'Bearer ' + token;
         axios.delete(url,{headers: {"Authorization": bearer}})
         .then((res) => {
-            const {username, partner_data} = res.data;
+            const {username, partner_data} = user;
             const {balance} = partner_data;
             dispatch({type: types.USERS_REMOVE_SUCCESS, url});
             dispatch({type: types.USERS_END_EDIT});
             dispatch(updateAdminLocally());
             dispatch(getAllTransactions());
             const message = `Removed partner ${username}, along with his balance of ${balance} and all his transactions.`;
-            dispatch(addLog(urltoid(url), logTypes.USER_REMOVE, message))
+            dispatch(null, logTypes.USER_REMOVE, message)
         })
         .catch(e => dispatch({type: types.USERS_REMOVE_FAIL, error: e}))
     }

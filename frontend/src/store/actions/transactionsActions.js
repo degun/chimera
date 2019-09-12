@@ -31,8 +31,8 @@ export const getAllTransactions = () => {
                     transactions
                 })
             }).catch(e => {
-                console.log(e.response.status)
-                if(e.response.status === 401){
+                console.log(e.response)
+                if(e.response && e.response.status === 401){
                     dispatch(logout);
                 }
             });
@@ -52,9 +52,12 @@ export const endAdd = () => {
     }
 }
 
-export const beginEdit = email => {
-    return dispatch => {
-        dispatch({type: actionTypes.TRANSACTIONS_BEGIN_EDIT, email})
+export const beginEdit = id => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const {transactions} = state.transactions;
+        const transaction = transactions.filter(t=>t.id === id)[0]
+        dispatch({type: actionTypes.TRANSACTIONS_BEGIN_EDIT, transaction})
     }
 }
 
@@ -98,6 +101,42 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
         })
     }
 }
+
+export const editTransaction = (transaction_type, client_name, amount, amount_paid, rate, user, id ) => {
+    if(transaction_type === "Payment")client_name = "-";
+    return (dispatch, getState) => {
+        const state = getState();
+        const {transactions} = state.transactions;
+        const transaction0 = transactions.filter(t=> t.id === id)[0];
+        const {username} = transaction0;
+        const {token} = state.auth;
+        const bearer = 'Bearer ' + token;
+        axios.post("http://localhost:8000/api/transactions/", {
+            transaction_type, client_name, amount, amount_paid, rate, user
+        },{
+            headers: {"Authorization": bearer}
+        }).then(res => {
+            dispatch({type: actionTypes.TRANSACTIONS_ADD_SUCCESS, transaction: res.data});
+            dispatch({type: actionTypes.TRANSACTIONS_END_ADD});
+            dispatch(updateUserLocally(user));
+            dispatch(updateAdminLocally());
+            let message;
+            const adminAmount = numeral(Math.abs(parseFloat(amount))).format('0,0.00 $');
+            const partnerAmount = numeral(Math.abs(parseFloat(amount_paid))).format('0,0.00 $');
+            switch(transaction_type){
+                case 'Wire':
+                case 'Credit Card': message = `Added deposit of ${adminAmount} by client ${client_name}, made via ${transaction_type}. Amount registered on partner ${username} is ${partnerAmount}, given that the actual rate is ${rate}.`; break;
+                case 'Withdraw': message = `Client ${client_name} withdrawed ${adminAmount} from main balance. ${partnerAmount} were substracted from ${username}'s balance, given that the actual rate is ${rate}.`; break;
+                case 'Payment': message = `Made payment of ${adminAmount} to ${username}`;break;
+                default: message = `Made transaction of type ${transaction_type}. Partner ${username}, main amount ${adminAmount}, partner amount ${partnerAmount} (because rate is ${rate}).`;break;
+            } 
+            dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
+        }).catch(e => {
+            dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
+        })
+    }
+}
+
 
 export const removeTransaction = id => {
     return (dispatch, getState) => {

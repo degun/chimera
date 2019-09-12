@@ -10,11 +10,12 @@ import { Text } from 'office-ui-fabric-react/lib/Text';
 import { editUser, removeUser,toggleActive, endEdit } from '../../store/actions/usersActions';
 import './EditUser.sass';
 
-function EditUser({editing, endEdit, username, email, rate, balance, active, staff, url, save, remove, toggleActiveState}){
+function EditUser({editing, endEdit, username, email, Wrate, CCrate, balance, active, staff, url, save, remove, toggleActiveState}){
     const [_username, setUsername] = useState(username);
     const [_email, setEmail] = useState(email);
     const [_balance, setBalance] = useState(balance);
-    const [_rate, setRate] = useState(rate);
+    const [_Wrate, setWRate] = useState(Wrate);
+    const [_CCrate, setCCRate] = useState(CCrate);
     const [_active, setActive] = useState(active);
     const [deleting, setDeleting] = useState(false);
     useEffect(()=>{setActive(active)}, [active]);
@@ -33,7 +34,8 @@ function EditUser({editing, endEdit, username, email, rate, balance, active, sta
                     </Stack>
                     <Stack horizontal>
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={_balance || 0} onChange={({target}) => setBalance(target.value)} />
-                        <TextField type="number" step={0.01} min={0} max={1} label="Rate" name="rate" placeholder="rate" value={_rate || undefined} onChange={({target}) => setRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={_Wrate || undefined} onChange={({target}) => setWRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Credit Card Rate" name="credit card rate" placeholder="rate" value={_CCrate || undefined} onChange={({target}) => setCCRate(target.value)} /> 
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endEdit()}text="Cancel" />
@@ -60,7 +62,7 @@ function EditUser({editing, endEdit, username, email, rate, balance, active, sta
                               }} /> : null}
                         <PrimaryButton 
                             className="save"
-                            onClick={()=>save(url, _username, _email, {balance: _balance, rate: _rate, active: _active})} 
+                            onClick={()=>save(url, _username, _email, {balance: _balance, Wrate: _Wrate, CCrate: _CCrate})} 
                             text="Save" />
                     </Stack>
                 </Stack>

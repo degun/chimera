@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'corsheaders'
+    'corsheaders',
+    'channels'
 ]
 
 AUTH_USER_MODEL = 'api.User'
@@ -79,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = "config.routing.application"
 
 
 # Database
@@ -129,8 +131,9 @@ REST_USE_JWT = True
 
 JWT_AUTH = { 
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_ALLOW_REFRESH': True
+    'JWT_ALLOW_REFRESH': True  
 }
+
 
 
 # Internationalization
@@ -151,3 +154,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)]
+        }
+    }
+}

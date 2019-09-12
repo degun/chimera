@@ -31,7 +31,12 @@ function Logs({logs, token, getLogs, selectMenu, users, filters, setFilter}){
 
     function getUsername(user){
         if(users.length){
-            return users.filter(u=> u.url === `http://localhost:8000/api/users/${user}/`)[0].username;
+            const filteredUser = users.filter(u=> u.url === `http://localhost:8000/api/users/${user}/`);
+            if(filteredUser.length){
+                return "@" + filteredUser[0].username;
+            }else{
+                return "Deleted"
+            }
         }else{
             return '';
         }
@@ -63,7 +68,7 @@ function Logs({logs, token, getLogs, selectMenu, users, filters, setFilter}){
             key: log.id,
             activityDescription: [
               <Text className={classNames.nameText} key={log.id}>{formatText(log.log_type)}</Text>,
-              <Link key={log.id + 'a'}>&nbsp;@{getUsername(log.user)}</Link>
+              <Link key={log.id + 'a'}>&nbsp;{getUsername(log.user)}</Link>
             ],
             activityIcon: <Icon styles={{root:{color}}} iconName={iconName} />,
             comments: [

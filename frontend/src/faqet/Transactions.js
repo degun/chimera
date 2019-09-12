@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import { DetailsList, SelectionMode, Selection, DetailsListLayoutMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, DetailsListLayoutMode, DetailsRow, DetailsRowBase } from 'office-ui-fabric-react/lib/DetailsList';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
@@ -19,12 +19,13 @@ import { setToken } from '../store/actions/authActions';
 import { formatDate } from '../useful';
 import { beginEdit, beginAdd, removeTransaction, getAllTransactions, setTransactionsFilter, setAllPartnersSelected, setAllTypesSelected } from '../store/actions/transactionsActions';
 import AddTransaction from '../pjeset/Transactions/AddTransaction';
+import EditTransaction from '../pjeset/Transactions/EditTransaction';
 import './Transactions.sass';
 
 numeral.locale('al');
 
-function Transactions ({selectMenu, beginAdd, token, users, admin, balance, adding, transactions, remove, getTransactions, setFilter, filters, allPartners, allTypes}){
-    
+function Transactions ({selectMenu, beginAdd, beginEdit, token, users, admin, balance, adding, editing, editData, transactions, remove, getTransactions, setFilter, filters, allPartners, allTypes}){
+
     const [deleting, setDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState(0);
     
@@ -44,7 +45,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
         if(!types.length){
             setFilter('types', ['Wire', 'Credit Card', 'Withdraw', 'Payment']);
         }
-    }, [setFilter])
+    }, [setFilter, users])
 
     const partnersDropdown = users.filter(u => !u.is_staff).map(u=>{
         const urlArray = u.url.split("/");
@@ -74,8 +75,8 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
             key: 'id',
             name: 'ID',
             fieldName: 'id',
-            minWidth: 20,
-            maxWidth: 30,
+            minWidth: 17,
+            maxWidth: 17,
             isRowHeader: false,
             isSorted: false,
             isSortedDescending: false,
@@ -88,7 +89,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
             key: 'transaction_type',
             name: 'Type',
             fieldName: 'transaction_type',
-            minWidth: 60,
+            minWidth: 70,
             maxWidth: 90,
             isRowHeader: false,
             isSorted: false,
@@ -288,12 +289,31 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
     ];
 
     function _onColumnClick(){}
-    function _renderItemColumn(item, index, column){
+
+    function renderRow(row){
+        let color;
+        switch(row.item.transaction_type){
+            case 'Wire': color = '#fce100'; break;
+            case 'Credit Card': color = '#ffaa44'; break;
+            case 'Withdraw': color = '#da3b01'; break;
+            case 'Payment': color = '#00b7c3'; row.item.amount = ''; row.item.rate = ''; break;
+            default: color = 'white'; break;
+        }
+        return <DetailsRow {...row} styles={{root: {borderLeft: `4px solid ${color}`, fontSize: '1.1em'}}} />
+    }
+
+    function renderItemColumn(item, index, column){
         if(column.key === 'amount' || column.key === 'amount_paid'){
             return <div style={{textAlign: 'right'}}>{item[column.key]}</div>
+        }else if(column.key === 'id' || column.key === 'created_at'){
+            return <div style={{fontSize: '1em'}}>{item[column.key]}</div>
         }else{
             return item[column.key]
         }
+    }
+
+    function editTransaction({id}){
+        // beginEdit(id)
     }
 
     let data = []
@@ -304,7 +324,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
             transaction_type: t.transaction_type,
             client: t.client_name,
             amount: numeral(parseFloat(t.amount)).format('0,0.00 $'),
-            rate: t.rate,
+            rate: numeral(parseFloat(t.rate)).format('0 %'),
             partner: admin ? users.filter(u => u.url === `http://localhost:8000/api/users/${t.user}/`)[0].username : null,
             amount_paid: numeral(parseFloat(t.amount_paid)).format('0,0.00 $'),
             created_at: moment(new Date(t.entry_time)).format("DD/MM/YYYY hh:mm:ss"),
@@ -382,7 +402,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
                         styles={{root: {
                             justifySelf: 'flex-end'
                         }}}
-                    /> : <div><Text variant="large">Balance:</Text> <Text variant="xLarge">{numeral(balance).format("0,0.00 $")}</Text></div>}
+                    /> : null}
                 </Stack>
                 <MarqueeSelection>
                     <DetailsList
@@ -392,16 +412,19 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
                         items={data}
                         compact={false}
                         columns={admin ? columns : partnerColumns}
+                        onItemInvoked={editTransaction}
                         enableShimmer={!data}
                         isHeaderVisible={true}
                         checkboxVisibility={2}
                         selectionMode={SelectionMode.multiple}
                         layoutMode={DetailsListLayoutMode.justified}
-                        onRenderItemColumn={_renderItemColumn}
+                        onRenderItemColumn={renderItemColumn}
+                        onRenderRow={renderRow}
                     />
                 </MarqueeSelection>
             </Fabric>
             {adding ? <AddTransaction adding={adding} /> : null}
+            {editing ? <EditTransaction data={editData} editing={editing} /> : null}
             <Dialog
                 hidden={!deleting}
                 onDismiss={() => setDeleting(false)}
@@ -424,9 +447,9 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, balance, addi
             </Dialog>
             <div className="bottom">
                 <div className="data">
-                    <Text variant="small" >{transactions.length} transactions</Text>
+                    <Text variant="small" >{transactions.length || 'No'} transaction{transactions.length !== 1 ? 's' : ''}</Text>
                 </div>
-                <DefaultButton iconProps={{iconName: 'Download'}}><CSVLink filename={`transactions_report_${moment(new Date()).format('DD_MM_YYYY_hh_mm_ss')}.csv`} data={data} headers={CSVheaders}>Download CSV</CSVLink></DefaultButton>
+                {transactions.length ? <DefaultButton iconProps={{iconName: 'Download'}}><CSVLink filename={`transactions_report_${moment(new Date()).format('DD_MM_YYYY_hh_mm_ss')}.csv`} data={data} headers={CSVheaders}>Download CSV</CSVLink></DefaultButton> : null}
             </div>
         </div>
     )
@@ -440,8 +463,8 @@ const mapStateToProps = state => {
         users: state.users.users,
         transactions: state.transactions.transactions,
         editing: state.transactions.editing,
-        editingThis: state.transactions.editingThis,
         adding: state.transactions.adding,
+        editData: state.transactions.editData,
         filters: state.transactions.filters
     }
 }

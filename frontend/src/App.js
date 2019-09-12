@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Menu from './pjeset/common/Menu';
-// import Notifications from './pjeset/common/Notifications';
+import Notifications from './pjeset/common/Notifications';
 import Home from './faqet/Home';
 import Login from './faqet/Login';
 import Users from './faqet/Users';
@@ -21,10 +21,9 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/users" component={Users} />
         <Route exact path="/transactions" component={Transactions} />
-        <Route exact path="/profile" component={Transactions} />
         <Route exact path="/logs" component={Logs} />
       </Switch>
-      {/* <Notifications /> */}
+      <Notifications />
     </div>
   );
 }

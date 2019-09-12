@@ -8,7 +8,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('balance', 'rate')
+        fields = ('balance', 'Wrate', 'CCrate')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,7 +45,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
 
         partner_data.balance = partner_data_data.get('balance', partner_data.balance)
-        partner_data.rate = partner_data_data.get('rate', partner_data.rate)
+        partner_data.Wrate = partner_data_data.get('Wrate', partner_data.Wrate)
+        partner_data.CCrate = partner_data_data.get('CCrate', partner_data.CCrate)
         partner_data.save()
 
         admin = UserProfile.objects.get(pk=admin_id)

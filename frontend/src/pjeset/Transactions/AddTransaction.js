@@ -11,22 +11,6 @@ import { Text } from 'office-ui-fabric-react/lib/Text';
 import { addTransaction, endAdd } from '../../store/actions/transactionsActions';
 import './AddTransaction.sass';
 
-numeral.register('locale', 'al', {
-    delimiters: {
-        thousands: '.',
-        decimal: ','
-    },
-    abbreviations: {
-        thousand: 'k',
-        million: 'm',
-        billion: 'b',
-        trillion: 't'
-    },
-    currency: {
-        symbol: '€'
-    }
-});
-
 numeral.locale('al');
 
 function AddTransaction({adding, endAdd, add, users}){
@@ -36,17 +20,17 @@ function AddTransaction({adding, endAdd, add, users}){
     const [amount_paid, setAmountpaid] = useState(0);
     const [partner, setPartner] = useState("");
     const [currentPartner, setCurrentPartner] = useState({partner_data: {rate: 1}});
-    const [rate, setRate] = useState(currentPartner.partner_data.rate)
+    const [rate, setRate] = useState(1);
     const [sign, setSign] = useState(1);
     const [ready, setReady] = useState(false);
     
     useEffect(()=>{
         switch(type){
-            case "Wire": setRate(parseFloat(currentPartner.partner_data.rate).toPrecision(2)); break;
-            case "Credit Card": setRate(parseFloat(currentPartner.partner_data.rate).toPrecision(2)); break;
-            case "Withdraw": setRate(parseFloat(currentPartner.partner_data.rate).toPrecision(2));break;
+            case "Wire": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2)); break;
+            case "Credit Card": setRate(parseFloat(currentPartner.partner_data.CCrate).toPrecision(2)); break;
+            case "Withdraw": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2));break;
             case "Payment": setRate(1) ;break;
-            default: setRate(parseFloat(currentPartner.partner_data.rate).toPrecision(2));break;
+            default: setRate(1);break;
         }
     }, [currentPartner, type]);
 
@@ -117,10 +101,22 @@ function AddTransaction({adding, endAdd, add, users}){
         }
     }
 
+    let color = 'white'
+
+    switch(type){
+        case 'Wire': color = '#fce100'; break;
+        case 'Credit Card': color = '#ffaa44'; break;
+        case 'Withdraw': color = '#da3b01'; break;
+        case 'Payment': color = '#00b7c3'; break;
+        default: color = 'white'; break;
+    }
+
+    const showCalculations = (type && type !== "Payment" && partner)
+
     return(
         <Modal isOpen={adding} onDismiss={endAdd} isModeless={true} dragOptions={{dragHandleSelector: '.head'}} containerClassName={"transactionModal"}>
             <div className="head"><Text>Add transaction</Text><ActionButton style={{height: "100%"}} buttonType={5} onClick={()=>endAdd()}><Icon iconName="Cancel" style={{color: "white"}}/></ActionButton></div>
-            <form>
+            <form style={{borderLeft: `4px solid ${color}`}}>
                 <Stack>
                     <Stack horizontal className="row1">
                         <ComboBox label="Type of transaction" autoComplete="on" selectedKey={type} options={transaction_types} placeholder="Type..." onChange={(e, {key}) => setType(key)} />
@@ -131,7 +127,7 @@ function AddTransaction({adding, endAdd, add, users}){
                         <TextField type="number" step={1} name="amount" label="Amount" placeholder="amount" value={amount} onChange={setAmountField} />
                     </Stack>
                     <Stack horizontal className="row3">
-                        <Text className="calc" variant="xLarge">{`${numeral(amount).format("0,0.00")} x ${rate} =`}</Text>
+                        <Text className="calc" styles={{root: {visibility: showCalculations ? 'visible' : 'hidden'}}} variant="xLarge">{`${numeral(amount).format("0,0.00")} x ${rate} =`}</Text>
                         <div className="partnerAmount">
                             <label htmlFor="partner_amount"><Text variant="medium">Partner amount</Text></label>
                             <Text className="amount" name="partner_amount" variant="xLarge">{numeral(amount_paid).format('0,0.00 $')}</Text>

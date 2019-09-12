@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 class User(AbstractUser):
-    username = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(_('email address'), unique=True)
 
     USERNAME_FIELD = 'email'
@@ -16,7 +16,8 @@ class User(AbstractUser):
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='partner_data')
     balance = models.DecimalField(max_digits=9, decimal_places=2, default=0)
-    rate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
+    Wrate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
+    CCrate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
 
 class Transaction(models.Model):
     transaction_type = models.CharField(max_length=12)
@@ -31,4 +32,4 @@ class Log(models.Model):
     log_type = models.CharField(max_length=20)
     message = models.CharField(max_length=160)
     entry_time = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user', null=True, blank=True, on_delete=models.SET_NULL)

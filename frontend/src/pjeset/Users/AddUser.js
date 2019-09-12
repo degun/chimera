@@ -16,7 +16,8 @@ function AddUser({adding, endAdd, add, users}){
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const [balance, setBalance] = useState(0);
-    const [rate, setRate] = useState(1);
+    const [Wrate, setWRate] = useState(1);
+    const [CCrate, setCCRate] = useState(1);
     const [isReady, setReady] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
@@ -114,14 +115,15 @@ function AddUser({adding, endAdd, add, users}){
                     </Stack>
                     <Stack horizontal>
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={balance} onChange={({target}) => setBalance(target.value)} />
-                        <TextField type="number" step={0.01} min={0} max={1} label="Rate" name="rate" placeholder="rate" value={rate} onChange={({target}) => setRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={Wrate} onChange={({target}) => setWRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Credit Card Rate" name="credit card rate" placeholder="rate" value={CCrate} onChange={({target}) => setCCRate(target.value)} /> 
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endAdd()} text="Cancel" />
                         <PrimaryButton 
                             disabled={!isReady}
                             className="add"
-                            onClick={()=>add(username, email, password1, {balance, rate})}
+                            onClick={()=>add(username, email, password1, {balance, Wrate, CCrate})}
                             text="Add" />
                     </Stack>
                 </Stack>

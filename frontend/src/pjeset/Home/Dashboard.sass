@@ -2,11 +2,31 @@
     .bar
         .balance
             display: flex
-            align-items: flex-end
-            flex-direction: column
-            .p
-                color: darkgreen
-    .userInfo
+            align-items: center
+            flex-direction: row
+            .txt
+                color: #777
+                margin-right: 10px
+        .combo
+            position: relative
+            .clear
+                font-size: 10px
+                color: #777
+                position: absolute
+                bottom: -13px
+                right: 0px
+                &:hover
+                    color: black
+                    cursor: pointer
+    .userInfo, .allInfo
         margin-top: 30px
         display: flex
         justify-content: space-between
+        table 
+            td 
+                &:first-child
+                    text-align: left
+                    color: #777
+                &:last-child
+                    text-align: right
+    

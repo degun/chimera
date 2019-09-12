@@ -8,6 +8,7 @@ const initialState = {
     editing: false,
     editingThis: 0,
     adding: false,
+    editData: {},
     filters: {
         partners: [],
         types: [],
@@ -24,7 +25,7 @@ const getTransactionsList = (state, action) => {
 }
 
 const beginEdit = (state, action) => {
-    return {...state, editing: true, editingThis: action.email}
+    return {...state, editing: true, editData: action.transaction}
 }
 
 const endEdit = state => {

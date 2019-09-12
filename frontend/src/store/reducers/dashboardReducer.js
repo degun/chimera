@@ -2,9 +2,10 @@ import * as types from '../actions/actionTypes';
 
 const initialState = {
     filters: {
-        fromDate: new Date(),
+        fromDate: new Date().setDate(1),
         toDate: new Date(),
-        partner: 0
+        partner: 0,
+        alltime: false
     },
     data: []
 }
@@ -21,6 +22,7 @@ const dashboardReducer = (state = initialState, action) => {
     switch(action.type){
         case types.DASHBOARD_GET_DATA: return getDashboardData(state, action);
         case types.DASHBOARD_SET_FILTER: return setFilter(state, action);
+        case types.AUTH_LOGOUT: return {...initialState};
         default: return state;
     }
 }

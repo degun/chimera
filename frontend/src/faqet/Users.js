@@ -100,12 +100,24 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             isPadded: true
         },
         {
-            key: 'rate',
-            name: 'Rate',
-            fieldName: 'rate',
+            key: 'Wrate',
+            name: 'Wire Rate',
+            fieldName: 'Wrate',
             minWidth: 40,
             maxWidth: 150,
-            isSorted: sortkey === 'rate',
+            isSorted: sortkey === 'Wrate',
+            isSortedDescending: ascending,
+            onColumnClick: onColumnClick,
+            data: 'number',
+            isPadded: true
+        },
+        {
+            key: 'CCrate',
+            name: 'Credit Card Rate',
+            fieldName: 'CCrate',
+            minWidth: 40,
+            maxWidth: 150,
+            isSorted: sortkey === 'CCrate',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
             data: 'number',
@@ -129,7 +141,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             date_joined: moment(new Date(user.date_joined)).fromNow(),
             username: user.username,
             balance: parseFloat(user.partner_data.balance),
-            rate: user.partner_data.rate,
+            Wrate: user.partner_data.Wrate,
+            CCrate: user.partner_data.CCrate,
             active: user.is_active,
             staff: user.is_staff,
             url: user.url

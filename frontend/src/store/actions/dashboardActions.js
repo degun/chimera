@@ -13,9 +13,11 @@ export const setFilter = (filter, value) => {
 export const getDashboardData = () => {
     return (dispatch, getState) => {
         const state = getState();
-        const {fromDate, toDate} = state.dashboard.filters;
+        const {fromDate, toDate, alltime} = state.dashboard.filters;
         const {token} = state.auth;
-        let q = `?from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
+        console.log(alltime)
+        const dateQ = alltime ? '' : `from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
+        let q = `?${dateQ}`;
         const bearer = 'Bearer ' + token;
         axios.get(`http://localhost:8000/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
             dispatch({
@@ -23,8 +25,8 @@ export const getDashboardData = () => {
                 data: res.data
             })
         }).catch(e => {
-            console.log(e.response.status)
-            if(e.response.status === 401){
+            console.log(e.response)
+            if(e.response && e.response && e.response.status === 401){
                 dispatch(logout);
             }
         });         
