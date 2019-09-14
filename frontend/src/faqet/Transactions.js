@@ -325,7 +325,7 @@ function Transactions ({selectMenu, beginAdd, beginEdit, token, users, admin, ba
             client: t.client_name,
             amount: numeral(parseFloat(t.amount)).format('0,0.00 $'),
             rate: numeral(parseFloat(t.rate)).format('0 %'),
-            partner: admin ? users.filter(u => u.url === `http://localhost:8000/api/users/${t.user}/`)[0].username : null,
+            partner: admin ? users.filter(u => u.url === `http://api.chimera-finance.com/api/users/${t.user}/`)[0].username : null,
             amount_paid: numeral(parseFloat(t.amount_paid)).format('0,0.00 $'),
             created_at: moment(new Date(t.entry_time)).format("DD/MM/YYYY hh:mm:ss"),
         }

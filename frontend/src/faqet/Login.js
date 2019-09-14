@@ -25,8 +25,8 @@ function Login({login, error, token}){
             </div>
             <form>
                 <h3>Log in</h3>
-                <TextField name="email" type="email" label="email" placeholder="enter email" onChange={({target}) => setEmail(target.value)} />
-                <TextField name="password" label="Password" type="password" placeholder="enter password" onChange={({target})=> setPassword(target.value)} />
+                <TextField name="email" type="email" label="email" placeholder="enter email" onChange={({target}) => setEmail(target.value)} onKeyPress={({key}) => (key === "Enter") ? login(email, password) : null} />
+                <TextField name="password" label="Password" type="password" placeholder="enter password" onChange={({target})=> setPassword(target.value)} onKeyPress={({key}) => (key === "Enter") ? login(email, password) : null} />
                 <PrimaryButton className="login" onClick={() => login(email, password)}>Log in</PrimaryButton>
                 <h6>{error && error.message}</h6>
             </form>

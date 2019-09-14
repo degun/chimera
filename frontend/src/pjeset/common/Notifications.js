@@ -8,7 +8,6 @@ import { getAllTransactions } from '../../store/actions/transactionsActions';
 import { updateAdminLocally } from '../../store/actions/usersActions';
 import './Notifications.sass';
 
-
 function Notifications({token, getTransactions, updateThisUser}){
     const client = w3cwebsocket(`ws://127.0.0.1:8000/notifications/?${token}`);
     const [anchor, setAnchor] = useState(null);

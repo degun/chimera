@@ -19,7 +19,7 @@ export const getDashboardData = () => {
         const dateQ = alltime ? '' : `from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
         let q = `?${dateQ}`;
         const bearer = 'Bearer ' + token;
-        axios.get(`http://localhost:8000/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
+        axios.get(`http://api.chimera-finance.com/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
             dispatch({
                 type: types.DASHBOARD_GET_DATA,
                 data: res.data

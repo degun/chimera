@@ -16,14 +16,23 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
       }, 60000);
       return () => clearInterval(interval);
     }, [refreshToken, token]);
+
+    useEffect(()=>{
+      window.addEventListener("focus", () => refreshToken(token));
+      return ()=>window.removeEventListener("focus");
+    },[])
+    
     if(!token) return null;
+    
     function itemClicked(e){
       setMenu(e.key.slice(1));
     }
+    
     function logOutClicked(){
       logOut();
       return <Redirect to="/login" />
     }
+    
     return (
         <div id="menu">
           <nav>

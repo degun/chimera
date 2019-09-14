@@ -71,15 +71,15 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
         return partners.map(p => {
             return {
                 name: p.username,
-                wire: d.filter(d => parseInt(d.user) === p.id).filter(d => (d.transaction_type === "Wire" || d.transaction_type === "Withdraw")).reduce((accumulator, a)=>{
+                wire: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => (d.transaction_type === "Wire" || d.transaction_type === "Withdraw")).reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
-                }, 0),
-                cc: d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
+                }, 0)),
+                cc: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
-                }, 0),
-                profit: d.filter(d => parseInt(d.user) === p.id).reduce((accumulator, a)=>{
+                }, 0)),
+                profit: round2(d.filter(d => parseInt(d.user) === p.id).reduce((accumulator, a)=>{
                     return parseFloat(a.amount) - parseFloat(a.amount_paid) + accumulator
-                }, 0)
+                }, 0))
             }
         })
     }

@@ -78,7 +78,7 @@ function AddTransaction({adding, endAdd, add, users}){
 
     function selectPartner(e, {key}){
         setPartner(key);
-        const url = `http://localhost:8000/api/users/${key}/`;
+        const url = `http://api.chimera-finance.com/api/users/${key}/`;
         setCurrentPartner(users.filter(u=>u.url === url)[0]);
     }
 

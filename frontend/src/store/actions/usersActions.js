@@ -12,7 +12,7 @@ export const getAllUsers = () => {
         const state = getState();
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
-        axios.get('http://localhost:8000/api/users/', { headers: { 'Authorization': bearer } }).then(res => {
+        axios.get('http://api.chimera-finance.com/api/users/', { headers: { 'Authorization': bearer } }).then(res => {
             dispatch({
                 type: types.USERS_GET_LIST,
                 users: res.data
@@ -54,7 +54,7 @@ export const updateUserLocally = id => {
     return (dispatch, getState) => {
         const state = getState();
         const {token} = state.auth;
-        axios.get(`http://localhost:8000/api/users/${id}/`,{
+        axios.get(`http://api.chimera-finance.com/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
             dispatch({type: types.USERS_GET_ONE, data: response.data});
@@ -69,7 +69,7 @@ export const updateAdminLocally = () => {
         const state = getState();
         const {token, id} = state.auth;
         console.log(token, id)
-        axios.get(`http://localhost:8000/api/users/${id}/`,{
+        axios.get(`http://api.chimera-finance.com/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
             console.log(response);
@@ -85,7 +85,7 @@ export const addUser = (username, email, password, partner_data) => {
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
-        axios.post("http://localhost:8000/api/users/", {
+        axios.post("http://api.chimera-finance.com/api/users/", {
             username, email, password, partner_data
         },{
             headers: {"Authorization": bearer}
