@@ -9,7 +9,7 @@ import { updateAdminLocally } from '../../store/actions/usersActions';
 import './Notifications.sass';
 
 function Notifications({token, getTransactions, updateThisUser}){
-    const client = w3cwebsocket(`ws://127.0.0.1:9000/notifications/?${token}`);
+    const client = w3cwebsocket(`ws://api.chimera-finance.com/notifications/?${token}`);
     const [anchor, setAnchor] = useState(null);
     const [notifications, setNotifications] = useState([]);
     

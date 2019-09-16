@@ -25,7 +25,7 @@ SECRET_KEY = '2(bj8hz@#rpn2qi7d=yya2)b-z!%@pggv=u)#(lwut^z)==01i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.chimera-finance.com']
 
 
 # Application definition
@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bookkeeping',
         'USER': 'degun',
-        'PASSWORD': 'Sylenth1',
+        'PASSWORD': 'Ashkla123',
         'HOST': 'localhost',
         'PORT': '5432'
     },
