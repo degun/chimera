@@ -1,3 +1,7 @@
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from api.models import User
 from django.urls import path
