@@ -1,5 +1,14 @@
-from channels.routing import ProtocolTypeRouter
+from channels.routing import ProtocolTypeRouter, URLRouter
+from api.models import User
+from django.urls import path
+from api.consumers import TransactionConsumer
+from channels.auth import AuthMiddlewareStack
+from config.token_auth import JsonTokenAuthMiddlewareStack
 
 application = ProtocolTypeRouter({
-    # Empty for now (http->django views is added by default)
+    "websocket": JsonTokenAuthMiddlewareStack(
+        URLRouter([
+            path('notifications/', TransactionConsumer),
+        ])
+    ),
 })
