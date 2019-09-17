@@ -31,7 +31,7 @@ function Logs({logs, token, getLogs, selectMenu, users, filters, setFilter}){
 
     function getUsername(user){
         if(users.length){
-            const filteredUser = users.filter(u=> u.url === `https://api.chimera-finance.com/api/users/${user}/`);
+            const filteredUser = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`);
             if(filteredUser.length){
                 return "@" + filteredUser[0].username;
             }else{

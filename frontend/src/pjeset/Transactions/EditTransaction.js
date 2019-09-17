@@ -79,7 +79,7 @@ function EditTransaction({editing, endEdit, edit, users, data}){
 
     function selectPartner(e, {key}){
         setPartner(key);
-        const url = `https://api.chimera-finance.com/api/users/${key}/`;
+        const url = `http://api.chimera-finance.com/api/users/${key}/`;
         setCurrentPartner(users.filter(u=>u.url === url)[0]);
     }
 

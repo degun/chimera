@@ -94,7 +94,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
     const singleUserDeposits = singleUserWire + singleUserCC;
     const due = users.filter(u => !u.is_staff).reduce((a, b) => a + parseFloat(b.partner_data.balance), 0);
     const selectedPartnerName = (selectedPartner && admin) ? partnersDropdown.find(p=> p.key === selectedPartner).text : null;
-    const seletedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.url === `https://api.chimera-finance.com/api/users/${selectedPartner}/`).balance : balance;
+    const seletedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.url === `http://api.chimera-finance.com/api/users/${selectedPartner}/`).balance : balance;
 
     return(
         <div id="dashboard">
