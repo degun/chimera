@@ -56,6 +56,7 @@ export const refreshToken = token => {
         axios.post('http://api.chimera-finance.com/api/auth-jwt-refresh/', {token}).then(res => {
             dispatch(setToken(res.data.token))
         }).catch(e => {
+            console.log(token)
             console.log("refresh token error " + e)
             dispatch(logout())
         })
