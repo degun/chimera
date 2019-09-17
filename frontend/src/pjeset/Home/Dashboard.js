@@ -94,6 +94,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
     const singleUserDeposits = singleUserWire + singleUserCC;
     const due = users.filter(u => !u.is_staff).reduce((a, b) => a + parseFloat(b.partner_data.balance), 0);
     const selectedPartnerName = (selectedPartner && admin) ? partnersDropdown.find(p=> p.key === selectedPartner).text : null;
+    const seletedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.url === `https://api.chimera-finance.com/api/users/${selectedPartner}/`).balance : balance;
 
     return(
         <div id="dashboard">
@@ -132,22 +133,26 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                                 <td><Text variant="xLarge">{selectedPartnerName}</Text></td>
                             </tr> : null}
                             <tr>
+                                <td>Balance: </td>
+                                <td><Text variant="xLarge"><AnimatedNumber duration={500} value={parseFloat(seletedPartnerBalance)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
+                            </tr>
+                            <tr>
                                 <td>Deposits: </td>
-                                <td><Text variant="xLarge"><AnimatedNumber duration={500} value={parseFloat(singleUserDeposits)} formatValue={(singleUserDeposits) => numeral(parseFloat(singleUserDeposits)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="xLarge"><AnimatedNumber duration={500} value={parseFloat(singleUserDeposits)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                             <tr>
                                 <td>Wire: </td>
-                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserWire)} formatValue={(singleUserWire) => numeral(parseFloat(singleUserWire)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserWire)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                             <tr>
                                 <td>Credit Card: </td>
-                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserCC)} formatValue={(singleUserCC) => numeral(parseFloat(singleUserCC)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserCC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section> : null}
-            {admin ? <section className="allInfo">
+            {(admin && alldata.length) ? <section className="allInfo">
             <BarChart
                     width={720}
                     height={400}
@@ -167,15 +172,15 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                         <tbody>
                             <tr>
                                 <td>Deposits: </td>
-                                <td><Text variant="xLarge"><AnimatedNumber duration={500} value={parseFloat(allUsersDeposits)} formatValue={(allUsersDeposits) => numeral(parseFloat(allUsersDeposits)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="xLarge"><AnimatedNumber duration={500} value={parseFloat(allUsersDeposits)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                             <tr>
                                 <td>Wire: </td>
-                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersWire)} formatValue={(allUsersWire) => numeral(parseFloat(allUsersWire)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersWire)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                             <tr>
                                 <td>Credit Card: </td>
-                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersCC)} formatValue={(allUsersCC) => numeral(parseFloat(allUsersCC)).format("0,0.00 $")} /></Text></td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersCC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
                         </tbody>
                     </table>
