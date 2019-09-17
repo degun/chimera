@@ -51,7 +51,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         admin = UserProfile.objects.get(user_id=admin_id)
         if(admin_id != user_id):
-            admin.balance = admin.balance + Decimal(newbalance) - Decimal(oldbalance)
+            admin.balance = Decimal(admin.balance) + Decimal(newbalance) - Decimal(oldbalance)
             admin.save()
 
         return instance
