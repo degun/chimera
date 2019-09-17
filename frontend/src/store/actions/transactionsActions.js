@@ -72,7 +72,7 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
     return (dispatch, getState) => {
         const state = getState();
         const {users} = state.users;
-        const user0 = users.filter(u=> u.url === `https://api.chimera-finance.com/api/users/${user}/`)[0];
+        const user0 = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`)[0];
         const {username} = user0;
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
