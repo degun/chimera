@@ -19,7 +19,7 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
 
     useEffect(()=>{
       window.addEventListener("focus", () => {
-        return () => refreshToken(token);
+        refreshToken(token);
       })
       return ()=>window.removeEventListener("focus");
     },[])
