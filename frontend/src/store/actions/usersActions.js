@@ -18,7 +18,7 @@ export const getAllUsers = () => {
                 users: res.data
             })
         }).catch(e => {
-            console.log(e.response);
+            console.log(e);
             if(e.response && e.response.status === 401){
                 dispatch(logout);
             }
@@ -68,11 +68,9 @@ export const updateAdminLocally = () => {
     return (dispatch, getState) => {
         const state = getState();
         const {token, id} = state.auth;
-        console.log(token, id)
         axios.get(`http://api.chimera-finance.com/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
-            console.log(response);
             dispatch({type: types.ADMIN_UPDATE_BALANCE, balance: response.data.partner_data.balance});
         }).catch(e => {
             console.log(e);

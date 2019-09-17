@@ -13,7 +13,7 @@ export const addLog = (user, type, message) => {
                 data: res.data
             })
         }).catch(e => {
-            console.log(e.response)
+            console.log(e)
             if(e.response && e.response && e.response.status === 401){
                 dispatch(logout);
             }
@@ -43,7 +43,7 @@ export const getLogs = () => {
                 data: res.data
             })
         }).catch(e => {
-            console.log(e.response.status)
+            console.log(e)
             if(e.response && e.response.status === 401){
                 dispatch(logout());
             }

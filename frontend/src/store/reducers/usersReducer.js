@@ -32,7 +32,6 @@ const addSuccess = (state, action) => {
 }
 
 const removeSuccess = (state, action) => {
-    console.log(state.users)
     const newUsers = state.users.filter(user => {
         return user.url !== action.url
     });

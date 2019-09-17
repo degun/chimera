@@ -38,7 +38,6 @@ function AddUser({adding, endAdd, add, users}){
         if(email){
             axios.get(`http://apilayer.net/api/check?access_key=b7de3ac4dc7084aee62c3517ccb05212&email=${email}&smtp=1&format=1`).then(res =>{
                 const {mx_found, smtp_check} = res.data;
-                console.log(res.data)
                 if(mx_found !== undefined){
                     if(mx_found && smtp_check){setErrors({...errors, email: ''})}else{
                         setErrors({...errors, email: 'email not valid'})

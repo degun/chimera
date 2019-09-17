@@ -15,7 +15,6 @@ export const getDashboardData = () => {
         const state = getState();
         const {fromDate, toDate, alltime} = state.dashboard.filters;
         const {token} = state.auth;
-        console.log(alltime)
         const dateQ = alltime ? '' : `from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
         let q = `?${dateQ}`;
         const bearer = 'Bearer ' + token;
@@ -25,7 +24,7 @@ export const getDashboardData = () => {
                 data: res.data
             })
         }).catch(e => {
-            console.log(e.response)
+            console.log(e)
             if(e.response && e.response && e.response.status === 401){
                 dispatch(logout);
             }

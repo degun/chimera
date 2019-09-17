@@ -31,7 +31,7 @@ export const getAllTransactions = () => {
                     transactions
                 })
             }).catch(e => {
-                console.log(e.response)
+                console.log(e)
                 if(e.response && e.response.status === 401){
                     dispatch(logout);
                 }
@@ -158,7 +158,7 @@ export const removeTransaction = id => {
             const message = `Removed transaction ${id} of type ${transaction_type}. Client: ${client_name}. Main amount: ${adminAmount}. Partner amount: ${partnerAmount}. Partner: ${username}. Rate ${rate}`;
             dispatch(addLog(user, logTypes.TRANSACTION_REMOVE, message))
         })
-        .catch(e => {console.log(e);dispatch({type: actionTypes.TRANSACTIONS_REMOVE_FAIL, error: e})})
+        .catch(e => dispatch({type: actionTypes.TRANSACTIONS_REMOVE_FAIL, error: e}))
     }
 }
 
