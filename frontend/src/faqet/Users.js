@@ -182,8 +182,9 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
           }
     }
     function onRenderRow(props){
-        return <DetailsRow {...props} styles={{root: {backgroundColor: props.item.staff ? "lightblue" : "white"}}} />
+        return <DetailsRow {...props} styles={{root: {backgroundColor: props.item.staff ? "lightblue" : "white", fontSize: '1.1em'}}} />
     }
+    
     let editData;
     editData = data.filter(user => {
         return user.email === editingThis
