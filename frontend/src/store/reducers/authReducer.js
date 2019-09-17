@@ -14,6 +14,7 @@ const authStart = (state, action) => {
 }
 
 const authSuccess = (state, action) => {
+    console.log(action.token)
     return {
         ...state, 
         error: null, 
