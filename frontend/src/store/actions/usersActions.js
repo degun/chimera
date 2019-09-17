@@ -114,7 +114,7 @@ export const editUser = (url, username, email, partner_data) => {
         const {balance, Wrate, CCrate} = partner_data;
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
-        axios.patch(url, {username, email, partner_data},{headers: {"Authorization": bearer}})
+        axios.patch(url.replace('http', 'https'), {username, email, partner_data},{headers: {"Authorization": bearer}})
         .then(res => {
             dispatch({type: types.USERS_EDIT_SUCCESS, data: res.data});
             dispatch({type: types.USERS_END_EDIT});
@@ -140,7 +140,7 @@ export const removeUser = url => {
         const {users} = state.users;
         const user = users.filter(u=> u.url === url)[0];
         const bearer = 'Bearer ' + token;
-        axios.delete(url,{headers: {"Authorization": bearer}})
+        axios.delete(url.replace('http', 'https'),{headers: {"Authorization": bearer}})
         .then((res) => {
             const {username, partner_data} = user;
             const {balance} = partner_data;
