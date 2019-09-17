@@ -13,16 +13,15 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
     useEffect(() => {
       const interval = setInterval( () => {
         refreshToken(token)
-      }, 300000);
+      }, 10000);
       return () => clearInterval(interval);
     }, [refreshToken, token]);
 
-    useEffect(()=>{
+    useEffect(() => {
       window.addEventListener("focus", () => {
-        let t = token;
-        refreshToken(t);
+        refreshToken(token);
       })
-      return ()=>window.removeEventListener("focus");
+      return () => window.removeEventListener("focus");
     },[])
     
     if(!token) return null;
