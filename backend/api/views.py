@@ -125,6 +125,9 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(status=204)
     
     def update_balances_on_create(self, request):
+        allpartners = UserProfile.objects.all()
+        print(allpartners)
+        
         admin_id = request.user.pk
         partner_id = request.data['user']
         amount = request.data['amount']
