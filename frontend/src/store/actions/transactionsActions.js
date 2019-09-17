@@ -148,7 +148,7 @@ export const removeTransaction = id => {
             const {transactions} = state.transactions;
             const {amount, amount_paid, client_name, user, rate, transaction_type} = transactions.filter(t=>t.id === id)[0];
             const {users} = state.users;
-            const user0 = users.filter(u=> u.url === `https://api.chimera-finance.com/api/users/${user}/`)[0];
+            const user0 = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`)[0];
             const {username} = user0;
             const adminAmount = numeral(parseFloat(amount)).format('0,0.00 $');
             const partnerAmount = numeral(parseFloat(amount_paid)).format('0,0.00 $');
