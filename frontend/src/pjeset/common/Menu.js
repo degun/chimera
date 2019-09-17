@@ -13,7 +13,7 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
     useEffect(() => {
       const interval = setInterval( () => {
         refreshToken(token)
-      }, 3000000);
+      }, 300000);
       return () => clearInterval(interval);
     }, [refreshToken, token]);
 
