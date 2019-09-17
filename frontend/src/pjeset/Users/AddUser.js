@@ -36,20 +36,18 @@ function AddUser({adding, endAdd, add, users}){
 
     function checkEmail(){
         if(email){
-            axios.get(`http://apilayer.net/api/check?access_key=b7de3ac4dc7084aee62c3517ccb05212&email=${email}&smtp=1&format=1`).then(res =>{
-                const {mx_found, smtp_check} = res.data;
-                if(mx_found !== undefined){
-                    if(mx_found && smtp_check){setErrors({...errors, email: ''})}else{
-                        setErrors({...errors, email: 'email not valid'})
-                    }
+            const emails = users.map(u => u.email);
+            var emailRegex = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            emails.forEach(em =>{
+                if (em === email){
+                    setErrors({...errors, email: 'User with this email is already present'})
                 }
-                const emails = users.map(u => u.email);
-                emails.forEach(em =>{
-                    if (em === email){
-                        setErrors({...errors, email: 'User with this email is already present'})
-                    }
-                })
             })
+            if(emailRegex.test(email)){
+                setErrors({...errors, email: ''})
+            }else{
+                setErrors({...errors, email: 'Email not valid'})
+            }
         }else{
             setErrors({...errors, email: ''})
         }
@@ -109,8 +107,8 @@ function AddUser({adding, endAdd, add, users}){
                         <TextField label="Username" name="username" placeholder="username" errorMessage={errors.username} value={username} onChange={({target}) => setUsername(target.value)} onBlur={checkUsername} />
                     </Stack>
                     <Stack horizontal>
-                        <TextField type="password" label="Password" name="password1" placeholder="password1" errorMessage={errors.password} value={password1} onChange={({target}) => setPassword1(target.value)} onBlur={checkPassword} />
-                        <TextField type="password" label="Confirm Password" name="password2" placeholder="password2" errorMessage={errors.passwordMatch} value={password2} onChange={({target}) => setPassword2(target.value)} onBlur={checkPassword2} /> 
+                        <TextField type="password" label="Password" name="password1" placeholder="password" errorMessage={errors.password} value={password1} onChange={({target}) => setPassword1(target.value)} onBlur={checkPassword} />
+                        <TextField type="password" label="Confirm Password" name="password2" placeholder="confirm password" errorMessage={errors.passwordMatch} value={password2} onChange={({target}) => setPassword2(target.value)} onBlur={checkPassword2} /> 
                     </Stack>
                     <Stack horizontal>
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={balance} onChange={({target}) => setBalance(target.value)} />
