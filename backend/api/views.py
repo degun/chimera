@@ -50,7 +50,7 @@ class UserViewSet(viewsets.ModelViewSet):
         profit = 0
         for t in transactions:
             profit = profit + t.amount - t.amount_paid
-        admin = UserProfile.objects.get(pk=admin_id)
+        admin = UserProfile.objects.get(user_id=admin_id)
         admin.balance = admin.balance - Decimal(balance) - profit
         admin.save()
 
@@ -58,7 +58,7 @@ class UserViewSet(viewsets.ModelViewSet):
         admin_id = request.user.pk
         partner_data = request.data['partner_data']
         balance = partner_data['balance']
-        admin = UserProfile.objects.get(pk=admin_id)
+        admin = UserProfile.objects.get(user_id=admin_id)
         admin.balance = Decimal(admin.balance) + Decimal(balance)
         admin.save()
 
@@ -132,8 +132,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         partner_id = request.data['user']
         amount = request.data['amount']
         amount_paid = request.data['amount_paid']
-        admin = UserProfile.objects.get(pk=admin_id)
-        partner = UserProfile.objects.get(pk=partner_id)
+        admin = UserProfile.objects.get(user_id=admin_id)
+        partner = UserProfile.objects.get(user_id=partner_id)
 
         admin.balance = admin.balance + amount
         partner.balance = partner.balance + Decimal(amount_paid)
@@ -147,8 +147,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         partner_id = instance.user.pk
         amount = instance.amount
         amount_paid = instance.amount_paid
-        admin = UserProfile.objects.get(pk=admin_id)
-        partner = UserProfile.objects.get(pk=partner_id)
+        admin = UserProfile.objects.get(user_id=admin_id)
+        partner = UserProfile.objects.get(user_id=partner_id)
 
         admin.balance = admin.balance - amount
         partner.balance = partner.balance - Decimal(amount_paid)

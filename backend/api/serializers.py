@@ -49,7 +49,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         partner_data.CCrate = partner_data_data.get('CCrate', partner_data.CCrate)
         partner_data.save()
 
-        admin = UserProfile.objects.get(pk=admin_id)
+        admin = UserProfile.objects.get(user_id=admin_id)
         if(admin_id != user_id):
             admin.balance = admin.balance + Decimal(newbalance) - Decimal(oldbalance)
             admin.save()
