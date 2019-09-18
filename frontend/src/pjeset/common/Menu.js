@@ -21,10 +21,10 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
       refreshToken(token)
     }
 
-    useEffect(() => {
-      window.addEventListener("focus", onFocus);
-      return () => window.removeEventListener("focus", onFocus);
-    },[])
+    // useEffect(() => {
+    //   window.addEventListener("focus", onFocus);
+    //   return () => window.removeEventListener("focus", onFocus);
+    // },[])
     
     if(!token) return null;
     
