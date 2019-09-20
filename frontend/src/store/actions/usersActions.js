@@ -10,7 +10,7 @@ import * as  logTypes from './logTypes';
 export const getAllUsers = () => {
     return (dispatch, getState) => {
         const state = getState();
-        const token = state.auth.token;
+        const {token} = state.auth;
         const bearer = 'Bearer ' + token;
         axios.get('https://api.chimera-finance.com/api/users/', { headers: { 'Authorization': bearer } }).then(res => {
             dispatch({
@@ -136,7 +136,7 @@ export const editUser = (url, username, email, partner_data) => {
 export const removeUser = url => {
     return (dispatch, getState) => {
         const state = getState();
-        const token = state.auth.token;
+        const {token} = state.auth;
         const {users} = state.users;
         const user = users.filter(u=> u.url === url)[0];
         const bearer = 'Bearer ' + token;
