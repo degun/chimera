@@ -1,0 +1,26 @@
+self.__precacheManifest = (self.__precacheManifest || []).concat([
+  {
+    "revision": "b04e47ad7156d79be74301752bdc79a0",
+    "url": "/index.html"
+  },
+  {
+    "revision": "9d30093be1249177c7d1",
+    "url": "/static/css/main.7731b031.chunk.css"
+  },
+  {
+    "revision": "a76a4e3d83f7b2f4fc73",
+    "url": "/static/js/2.55d19a82.chunk.js"
+  },
+  {
+    "revision": "9d30093be1249177c7d1",
+    "url": "/static/js/main.52b565e9.chunk.js"
+  },
+  {
+    "revision": "42ac5946195a7306e2a5",
+    "url": "/static/js/runtime~main.a8a9905a.js"
+  },
+  {
+    "revision": "71e6b608b9dc9429613828caa3995eca",
+    "url": "/static/media/Chimera_01-01.71e6b608.svg"
+  }
+]);

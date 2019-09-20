@@ -12,19 +12,15 @@ import './Menu.sass';
 function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
     useEffect(() => {
       const interval = setInterval( () => {
-        refreshToken(token)
+        refreshToken()
       }, 300000);
       return () => clearInterval(interval);
-    }, [refreshToken, token]);
+    }, []);
 
-    function onFocus(){
-      refreshToken(token)
-    }
-
-    // useEffect(() => {
-    //   window.addEventListener("focus", onFocus);
-    //   return () => window.removeEventListener("focus", onFocus);
-    // },[])
+    useEffect(() => {
+        window.addEventListener("focus", refreshToken);
+        return () => window.removeEventListener("focus", refreshToken);
+    },[])
     
     if(!token) return null;
     
@@ -74,7 +70,7 @@ const mapDispatchToProps = dispatch => {
   return {
     logOut: () => dispatch(logout()),
     setMenu: menu => dispatch(selectMenu(menu)),
-    refreshToken: token => dispatch(refreshToken(token))
+    refreshToken: () => dispatch(refreshToken())
   }
 }
 

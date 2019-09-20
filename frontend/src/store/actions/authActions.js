@@ -51,12 +51,13 @@ export const logout = () => {
     }
 }
 
-export const refreshToken = token => {
-    return dispatch => {
+export const refreshToken = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const token = state.auth;
         axios.post('https://api.chimera-finance.com/api/auth-jwt-refresh/', {token}).then(res => {
             dispatch(setToken(res.data.token))
         }).catch(e => {
-            console.log(token)
             console.log("refresh token error " + e)
             dispatch(logout())
         })
@@ -64,7 +65,7 @@ export const refreshToken = token => {
 }
 
 export const login = (email, password) => {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(authStart());
         axios.post('https://api.chimera-finance.com/api/auth/login/', {
             email,
@@ -88,6 +89,26 @@ export const login = (email, password) => {
         }).catch(error => {
             dispatch(authFail(error));
         })
+    }
+}
+
+export const resetPassword = email => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const token = state.auth;
+        const bearer = 'Bearer ' + token;
+        axios.post('https://api.chimera-finance.com/api/auth/password/reset/', {email}, { headers: { 'Authorization': bearer } });
+        dispatch({type: types.AUTH_RESET_PASSWORD});
+    }
+}
+
+export const changePassword = (new_password1, new_password2) => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const token = state.auth;
+        const bearer = 'Bearer ' + token;
+        axios.post('https://api.chimera-finance.com/api/auth/password/change/', {new_password1, new_password2}, { headers: { 'Authorization': bearer } });
+        dispatch({type: types.AUTH_RESET_PASSWORD});
     }
 }
 
