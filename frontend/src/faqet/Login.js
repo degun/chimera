@@ -29,7 +29,7 @@ function Login({login, forgot, error, token}){
                 <h3>Log in</h3>
                 <TextField name="admin_email" type="email" label="email" placeholder="enter email" onChange={({target}) => setEmail(target.value)} onKeyPress={({key}) => (key === "Enter") ? login(email, password) : null} />
                 <TextField name="admin_password" label="Password" type="password" placeholder="enter password" onChange={({target})=> setPassword(target.value)} onKeyPress={({key}) => (key === "Enter") ? login(email, password) : null} />
-                {/* <TooltipHost className="forgot" content={email ? "" : "Please enter email"} styles={{ root: { display: 'inline-block' } }}>
+                <TooltipHost className="forgot" content={email ? "" : "Please enter email"} styles={{ root: { display: 'inline-block' } }}>
                     <Text onClick={() => {
                         if(email){
                             return forgot(email);
@@ -37,7 +37,7 @@ function Login({login, forgot, error, token}){
                             return null
                         }
                     }}>Forgot password?</Text>
-                </TooltipHost> */}
+                </TooltipHost>
                 <PrimaryButton className="login" onClick={() => login(email, password)}>Log in</PrimaryButton>
                 <h6>{error && error.message}</h6>
             </form>
