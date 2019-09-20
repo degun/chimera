@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.7731b031.chunk.css",
-    "main.js": "/static/js/main.52b565e9.chunk.js",
-    "main.js.map": "/static/js/main.52b565e9.chunk.js.map",
+    "main.js": "/static/js/main.589c98b4.chunk.js",
+    "main.js.map": "/static/js/main.589c98b4.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
     "static/js/2.55d19a82.chunk.js": "/static/js/2.55d19a82.chunk.js",
     "static/js/2.55d19a82.chunk.js.map": "/static/js/2.55d19a82.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.c4e6325c725008efe48f43968df72ca5.js": "/precache-manifest.c4e6325c725008efe48f43968df72ca5.js",
+    "precache-manifest.2f7dfff087d47258003e5384d4e98748.js": "/precache-manifest.2f7dfff087d47258003e5384d4e98748.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.7731b031.chunk.css.map": "/static/css/main.7731b031.chunk.css.map",
     "static/media/Chimera_01-01.svg": "/static/media/Chimera_01-01.71e6b608.svg"

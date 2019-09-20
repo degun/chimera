@@ -55,6 +55,7 @@ export const refreshToken = () => {
     return (dispatch, getState) => {
         const state = getState();
         const token = state.auth;
+        console.log(token);
         axios.post('https://api.chimera-finance.com/api/auth-jwt-refresh/', {token}).then(res => {
             dispatch(setToken(res.data.token))
         }).catch(e => {
@@ -65,7 +66,7 @@ export const refreshToken = () => {
 }
 
 export const login = (email, password) => {
-    return (dispatch, getState) => {
+    return dispatch => {
         dispatch(authStart());
         axios.post('https://api.chimera-finance.com/api/auth/login/', {
             email,
