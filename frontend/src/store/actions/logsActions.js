@@ -21,6 +21,22 @@ export const addLog = (user, type, message) => {
     }    
 }
 
+export const deleteLog = id => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const {token} = state.auth;
+        const bearer = 'Bearer ' + token;
+        axios.delete(`https://api.chimera-finance.com/api/logs/${id}`, { headers: { 'Authorization': bearer } }).then(res => {
+            dispatch({
+                type: types.LOGS_REMOVE,
+                id
+            })
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+}
+
 export const setFilter = (filter, value) => {
     return {
         type: types.LOGS_SET_FILTER,

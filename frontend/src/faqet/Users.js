@@ -28,8 +28,6 @@ function sortByKey(array, key, asc) {
 }
 
 function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing, editingThis, adding}){
-    
-    console.log(users)
 
     const [sortkey, setSortkey] = useState("staff");
     const [ascending, setAscending] = useState(true);

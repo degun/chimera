@@ -17,11 +17,16 @@ const getLogs = (state, action) => {
     return {...state, logs: action.data}
 }
 
+const removeLog = (state, action) => {
+    return {...state, logs: state.logs.filter(log => log.id !== action.id)}
+}
+
 const logsReducer = (state = initialState, action) => {
     switch(action.type){
         case types.LOGS_GET_DATA: return getLogs(state, action);
         case types.LOGS_SET_FILTER: return setFilter(state, action);
         case types.AUTH_LOGOUT: return {...initialState};
+        case types.LOGS_REMOVE: return removeLog(state, action);
         default: return state;
     }
 }

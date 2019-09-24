@@ -1,19 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {getLogs, setFilter} from '../store/actions/logsActions';
+import {getLogs, setFilter, deleteLog} from '../store/actions/logsActions';
 import {selectMenu} from '../store/actions/systemActions';
 import { ActivityItem, Icon, Link, mergeStyleSets } from 'office-ui-fabric-react';
 import { Redirect } from 'react-router-dom';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { IconButton } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { formatText, formatDate } from '../useful';
 import * as t from '../store/actions/logTypes';
 import './Logs.sass';
 
-function Logs({logs, token, getLogs, selectMenu, users, filters, setFilter}){
+function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilter}){
+
+    function Log({item}){
+        const [hovered, setHovered] = useState(false);
+        let color = hovered ? '#666' : '#ccc';
+        return <div className="log" onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+            <IconButton onMouseEnter={() => setHovered(true)} onClick={() => remove(item.key)} iconProps={{iconName:"Delete"}} styles={{root: {position: 'absolute', right: '60px', top: '3px', color}, rootHovered: {color: 'red'}}} />
+            <ActivityItem {...item} className={classNames.exampleRoot} />
+        </div>
+    }
 
     let {fromDate, toDate, message} = filters;
 
@@ -89,7 +99,7 @@ function Logs({logs, token, getLogs, selectMenu, users, filters, setFilter}){
             </Stack>
             <div className="logs">
                 {items.map(item => (
-                    <ActivityItem {...item} key={item.key} className={classNames.exampleRoot} />
+                    <Log key={item.key} item={item} />
                 ))}
             </div>
         </div>
@@ -108,6 +118,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getLogs: () => dispatch(getLogs()),
+        remove: id => dispatch(deleteLog(id)),
         selectMenu: menu => dispatch(selectMenu(menu)),
         setFilter: (filter, value) => dispatch(setFilter(filter, value))
     }
