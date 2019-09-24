@@ -137,7 +137,7 @@ JWT_AUTH = {
 #mail
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.chimera-finance.com'
+EMAIL_HOST = 'chimera-finance.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'degun'
 EMAIL_HOST_PASSWORD = ''
