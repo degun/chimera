@@ -76,7 +76,6 @@ export const login = (email, password) => {
             axios.get(`https://api.chimera-finance.com/api/users/${pk}/`,{
                 headers: {'Authorization': `Bearer ${token}`}
             }).then(res => {
-                console.log(res)
                 const {is_active, is_staff, partner_data} = res.data;
                 let balance  = parseFloat(partner_data.balance);
                 if(is_active){
@@ -94,11 +93,8 @@ export const login = (email, password) => {
 }
 
 export const resetPassword = email => {
-    return (dispatch, getState) => {
-        const state = getState();
-        const {token} = state.auth;
-        const bearer = 'Bearer ' + token;
-        axios.post('https://api.chimera-finance.com/api/auth/password/reset/', {email}, { headers: { 'Authorization': bearer } });
+    return dispatch => {
+        axios.post('https://api.chimera-finance.com/api/auth/password/reset/', {email});
         dispatch({type: types.AUTH_RESET_PASSWORD});
     }
 }
