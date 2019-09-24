@@ -76,6 +76,7 @@ export const login = (email, password) => {
             axios.get(`https://api.chimera-finance.com/api/users/${pk}/`,{
                 headers: {'Authorization': `Bearer ${token}`}
             }).then(res => {
+                console.log(res)
                 const {is_active, is_staff, partner_data} = res.data;
                 let balance  = parseFloat(partner_data.balance);
                 if(is_active){
