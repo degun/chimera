@@ -140,7 +140,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'chimera-finance.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'degun'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'Ashkla123'
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'Admin <admin@chimera-finance.com>'
 
