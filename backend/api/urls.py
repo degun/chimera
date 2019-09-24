@@ -10,7 +10,8 @@ ROUTER.register(r'logs', LogViewSet)
 
 urlpatterns = [
     url(r'^', include(ROUTER.urls)),
-    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^auth/', include('rest_auth.urls')),
     url(r'^auth-jwt/', obtain_jwt_token),
     url(r'^auth-jwt-refresh/', refresh_jwt_token),
     url(r'^auth-jwt-verify/', verify_jwt_token),
