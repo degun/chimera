@@ -134,6 +134,15 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True  
 }
 
+#mail
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'Admin <admin@chimera-finance.com>'
 
 
 # Internationalization
