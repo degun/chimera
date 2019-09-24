@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
+from rest_auth.urls import PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 from api.views import UserViewSet, TransactionViewSet, LogViewSet
 
@@ -10,8 +11,10 @@ ROUTER.register(r'logs', LogViewSet)
 
 urlpatterns = [
     url(r'^', include(ROUTER.urls)),
-    url(r'^auth/password/', include('django.contrib.auth.urls')),
     url(r'^auth/', include('rest_auth.urls')),
+    url('/auth/password/reset/', PasswordResetView),
+    url('/auth/password/reset/confirm/', PasswordResetConfirmView),
+    url('/auth/password/change/', PasswordChangeView),
     url(r'^auth-jwt/', obtain_jwt_token),
     url(r'^auth-jwt-refresh/', refresh_jwt_token),
     url(r'^auth-jwt-verify/', verify_jwt_token),
