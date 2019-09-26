@@ -20,7 +20,7 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
         const [hovered, setHovered] = useState(false);
         let color = hovered ? '#666' : '#ccc';
         return <div className="log" onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-            <IconButton onMouseEnter={() => setHovered(true)} onClick={() => remove(item.key)} iconProps={{iconName:"Delete"}} styles={{root: {position: 'absolute', right: '60px', top: '3px', color}, rootHovered: {color: 'red'}}} />
+            <IconButton onMouseEnter={() => setHovered(true)} onClick={() => remove(item.key)} iconProps={{iconName:"Delete"}} styles={{root: {position: 'absolute', right: '5px', top: '3px', color}, rootHovered: {color: 'red'}}} />
             <ActivityItem {...item} className={classNames.exampleRoot} />
         </div>
     }

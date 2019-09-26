@@ -95,6 +95,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
     const due = users.filter(u => !u.is_staff).reduce((a, b) => a + parseFloat(b.partner_data.balance), 0);
     const selectedPartnerName = (selectedPartner && admin) ? partnersDropdown.find(p=> p.key === selectedPartner).text : null;
     const selectedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.url === `http://api.chimera-finance.com/api/users/${selectedPartner}/`).partner_data.balance : balance;
+    
     return(
         <div id="dashboard">
             <Stack className="bar" horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
