@@ -165,7 +165,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Transaction.objects.all()
-        queryset = queryset.exclude(client_name__exact="-").distinct()
+        queryset = queryset.exclude(client_name__exact="-").distinct('client_name')
         return queryset
 
 class LogViewSet(viewsets.ModelViewSet):
