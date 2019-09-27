@@ -3,10 +3,10 @@ import moment from 'moment';
 import numeral from 'numeral';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import { DetailsList, SelectionMode, DetailsListLayoutMode, DetailsRow, DetailsRowBase } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, DetailsListLayoutMode, DetailsRow } from 'office-ui-fabric-react/lib/DetailsList';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
@@ -17,14 +17,14 @@ import { CSVLink } from "react-csv";
 import { selectMenu } from '../store/actions/systemActions';
 import { setToken } from '../store/actions/authActions';
 import { formatDate } from '../useful';
-import { beginEdit, beginAdd, removeTransaction, getAllTransactions, setTransactionsFilter, setAllPartnersSelected, setAllTypesSelected } from '../store/actions/transactionsActions';
+import { beginEdit, beginAdd, removeTransaction, getAllTransactions, getAllClients, setTransactionsFilter, setAllPartnersSelected, setAllTypesSelected } from '../store/actions/transactionsActions';
 import AddTransaction from '../pjeset/Transactions/AddTransaction';
 import EditTransaction from '../pjeset/Transactions/EditTransaction';
 import './Transactions.sass';
 
 numeral.locale('al');
 
-function Transactions ({selectMenu, beginAdd, beginEdit, token, users, admin, balance, adding, editing, editData, transactions, remove, getTransactions, setFilter, filters, allPartners, allTypes}){
+function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editing, editData, transactions, remove, getTransactions, getClients, setFilter, filters, allPartners, allTypes}){
 
     const [deleting, setDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState(0);
@@ -68,6 +68,7 @@ function Transactions ({selectMenu, beginAdd, beginEdit, token, users, admin, ba
         document.title = "Chimera | Transactions"; 
         selectMenu(admin ? "2" : "3");
         getTransactions();
+        if(admin){getClients()}
     }, [selectMenu, getTransactions, admin]);
     
     const columns = [
@@ -379,7 +380,7 @@ function Transactions ({selectMenu, beginAdd, beginEdit, token, users, admin, ba
                             options={[{ key: 'typesHeader', text: 'Types', itemType: DropdownMenuItemType.Header },...typesDropdown]}
                             style={{width: 120, textAlign: 'left'}}
                         />
-                        <TextField style={{width: 150}} type="text" value={client} placeholder="Client name..." onChange={({target}) => setFilter('client',target.value.toLowerCase())} />
+                        <SearchBox styles={{root: {width: 150}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}} value={client} placeholder="Client name..." onChange={({target}) => setFilter('client',target.value.toLowerCase())} />
                         {admin ? <Dropdown
                             placeholder="Filter by partner"
                             selectedKeys={partners}
@@ -477,6 +478,7 @@ const mapDispatchToProps = dispatch => {
         beginEdit: id => dispatch(beginEdit(id)),
         remove: url => dispatch(removeTransaction(url)),
         getTransactions: () => dispatch(getAllTransactions()),
+        getClients: () => dispatch(getAllClients()),
         setFilter: (filter, value) => dispatch(setTransactionsFilter(filter, value)),
         allTypes: bool => dispatch(setAllTypesSelected(bool)),
         allPartners: bool => dispatch(setAllPartnersSelected(bool))

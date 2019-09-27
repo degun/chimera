@@ -63,6 +63,12 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = '__all__'
 
+class ClientSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Transaction
+        fields = ('client_name')
+
 
 class LogSerializer(serializers.ModelSerializer):
     

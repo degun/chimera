@@ -5,6 +5,7 @@ const aWeekAgo = new Date(new Date().setDate(today.getDate()-6));
 
 const initialState = {
     transactions: [],
+    clients: [],
     editing: false,
     editingThis: 0,
     adding: false,
@@ -22,6 +23,10 @@ const initialState = {
 
 const getTransactionsList = (state, action) => {
     return {...state, transactions: action.transactions}
+}
+
+const getClientsList = (state, action) => {
+    return {...state, clients: action.clients}
 }
 
 const beginEdit = (state, action) => {
@@ -88,6 +93,7 @@ const systemReducer = (state = initialState, action) => {
         case types.TRANSACTIONS_SET_FILTER: return setFilter(state, action);
         case types.TRANSACTIONS_SET_ALL_PARTNERS_SELECTED: return setAllPartnersSelected(state, action);
         case types.TRANSACTIONS_SET_ALL_TYPES_SELECTED: return setAllTypesSelected(state, action);
+        case types.TRANSACTIONS_GET_CLIENTS_LIST: return getClientsList(state, action);
         case types.AUTH_LOGOUT: return {...initialState};
         default: return state;
     }

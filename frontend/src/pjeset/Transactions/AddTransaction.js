@@ -13,7 +13,7 @@ import './AddTransaction.sass';
 
 numeral.locale('al');
 
-function AddTransaction({adding, endAdd, add, users}){
+function AddTransaction({adding, endAdd, add, users, clients}){
     const [type, setType] = useState("");
     const [client, setClient] = useState("");
     const [amount, setAmount] = useState(0);
@@ -67,6 +67,13 @@ function AddTransaction({adding, endAdd, add, users}){
         { key: 'Withdraw', text: 'Withdraw' },
         { key: 'Payment', text: 'Payment' }
     ];
+
+    const client_names = clients.map(client => {
+        return {
+            key: client.client_name,
+            text: client.client_name
+        }
+    })
 
     const partners = users.filter(u => (!u.is_staff && u.is_active)).map(u=>{
         const urlArray = u.url.split("/");
@@ -123,7 +130,7 @@ function AddTransaction({adding, endAdd, add, users}){
                         <ComboBox label="Partner name" autoComplete="on" allowFreeform selectedKey={partner} options={partners} placeholder="Partner..." onChange={selectPartner} />
                     </Stack>
                     <Stack horizontal className="row2">
-                        <TextField disabled={type === "Payment"} name="client" label="Client name" placeholder="client" value={client} onChange={({target}) => setClient(target.value)} /> 
+                        <ComboBox disabled={type === "Payment"} label="Client name" autoComplete="on" allowFreeform selectedKey={client} options={client_names} placeholder="Client name..." onChange={(e, {key}) => setClient(key)} />
                         <TextField type="number" step={1} name="amount" label="Amount" placeholder="amount" value={amount} onChange={setAmountField} />
                     </Stack>
                     <Stack horizontal className="row3">
@@ -150,7 +157,8 @@ function AddTransaction({adding, endAdd, add, users}){
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
-        users: state.users.users
+        users: state.users.users,
+        clients: state.transactions.clients
     }
 }
 

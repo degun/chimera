@@ -3,7 +3,7 @@ import moment from 'moment';
 import numeral from 'numeral';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { DetailsList, SelectionMode, DetailsRow } from 'office-ui-fabric-react/lib/DetailsList';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
@@ -203,7 +203,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             <Fabric>
                 <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
                     <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto" } }}>
-                        <TextField style={{width: 300}} type="text" value={searchStr} placeholder="Filter by username or email..." onChange={({target}) => setSearchStr(target.value)} />
+                        <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}}  value={searchStr} placeholder="Filter by username or email..." onChange={({target}) => setSearchStr(target.value)} />
                         <ComboBox style={{width: 150}} options={roles} selectedKey={roleFilter} placeholder="Filter by role..." onChange={(e, {key})=> setRoleFilter(key)} />
                     </Stack>
                     <PrimaryButton

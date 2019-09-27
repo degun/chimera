@@ -6,7 +6,7 @@ import {selectMenu} from '../store/actions/systemActions';
 import { ActivityItem, Icon, Link, mergeStyleSets } from 'office-ui-fabric-react';
 import { Redirect } from 'react-router-dom';
 import { Text } from 'office-ui-fabric-react/lib/Text';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { IconButton } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
@@ -95,7 +95,7 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
             <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto", marginTop: '20px', marginBottom: '12px' } }}>
                 <DatePicker style={{width: 140}} formatDate={date => formatDate(date)} firstDayOfWeek={DayOfWeek.Monday} maxDate={toDate} placeholder="From date" value={fromDate} onSelectDate={e=> setFilter('fromDate',new Date(new Date(e).setHours(0,0,0,0)))}/>
                 <DatePicker style={{width: 140}} formatDate={date => formatDate(date)} firstDayOfWeek={DayOfWeek.Monday} maxDate={new Date(new Date().setHours(23,59,59,0))} minDate={fromDate} placeholder="To date" value={toDate} onSelectDate={e=> setFilter('toDate',new Date(new Date(e).setHours(23,59,59,0)))}/>
-                <TextField style={{width: 300}} type="text" value={message} placeholder="Search log text..." onChange={({target}) => setFilter('message',target.value.toLowerCase())} />
+                <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}} value={message} placeholder="Filter by log text..." onChange={({target}) => setFilter('message',target.value.toLowerCase())} />
             </Stack>
             <div className="logs">
                 {items.map(item => (

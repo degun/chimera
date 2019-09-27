@@ -1,11 +1,12 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
-from api.views import UserViewSet, TransactionViewSet, LogViewSet
+from api.views import UserViewSet, TransactionViewSet, ClientViewSet, LogViewSet
 
 ROUTER = routers.DefaultRouter()
 ROUTER.register(r'users', UserViewSet)
 ROUTER.register(r'transactions', TransactionViewSet)
+ROUTER.register(r'clients', ClientViewSet)
 ROUTER.register(r'logs', LogViewSet)
 
 urlpatterns = [

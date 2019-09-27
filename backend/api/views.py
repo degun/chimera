@@ -6,7 +6,7 @@ from decimal import Decimal
 from datetime import datetime
 from django.utils.timezone import make_aware
 from api.models import User, Transaction, UserProfile, Log
-from api.serializers import UserSerializer, TransactionSerializer, LogSerializer
+from api.serializers import UserSerializer, TransactionSerializer, ClientSerializer, LogSerializer
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -158,6 +158,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     def save(self):
         super(Transaction, self).save()
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.all()
+    serializer_class = ClientSerializer
 
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()

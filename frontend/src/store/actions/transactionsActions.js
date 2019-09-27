@@ -40,6 +40,26 @@ export const getAllTransactions = () => {
     }   
 }
 
+export const getAllClients = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const {token} = state.auth;
+        const bearer = 'Bearer ' + token;
+        axios.get(`https://api.chimera-finance.com/api/clients/`, { headers: { 'Authorization': bearer } }).then(res => {
+            const clients = res.data;
+            dispatch({
+                type: actionTypes.TRANSACTIONS_GET_CLIENTS_LIST,
+                clients
+            })
+        }).catch(e => {
+            console.log(e)
+            if(e.response && e.response.status === 401){
+                dispatch(logout);
+            }
+        });
+    }   
+}
+
 export const beginAdd = () => {
     return dispatch => {
         dispatch({type: actionTypes.TRANSACTIONS_BEGIN_ADD})
