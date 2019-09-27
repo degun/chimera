@@ -16,6 +16,7 @@ numeral.locale('al');
 function AddTransaction({adding, endAdd, add, users, clients}){
     const [type, setType] = useState("");
     const [client, setClient] = useState("");
+    const [client_names, setClientNames] = useState([]);
     const [amount, setAmount] = useState(0);
     const [amount_paid, setAmountpaid] = useState(0);
     const [partner, setPartner] = useState("");
@@ -68,12 +69,18 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         { key: 'Payment', text: 'Payment' }
     ];
 
-    const client_names = clients.map(client => {
-        return {
-            key: client.client_name,
-            text: client.client_name
-        }
-    })
+    useEffect(()=>{
+        setClientNames(clients.map(c => {
+            return {
+                key: c,
+                text: c
+            }
+        }))
+    }, [])
+
+    function addClientToClientNames(){
+        setClientNames([{key: client, text: client}, ...client_names])
+    }
 
     const partners = users.filter(u => (!u.is_staff && u.is_active)).map(u=>{
         const urlArray = u.url.split("/");
@@ -130,7 +137,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
                         <ComboBox label="Partner name" autoComplete="on" allowFreeform selectedKey={partner} options={partners} placeholder="Partner..." onChange={selectPartner} />
                     </Stack>
                     <Stack horizontal className="row2">
-                        <ComboBox disabled={type === "Payment"} label="Client name" autoComplete="on" allowFreeform selectedKey={client} options={client_names} placeholder="Client name..." onChange={(e, {key}) => setClient(key)} />
+                        <ComboBox disabled={type === "Payment"} label="Client name" autoComplete="on" allowFreeform={true} selectedKey={client} options={client_names} onBlur={addClientToClientNames} placeholder="Client name..." onChange={(e, e2) => setClient(e.target.value ? e.target.value : e2.key)} />
                         <TextField type="number" step={1} name="amount" label="Amount" placeholder="amount" value={amount} onChange={setAmountField} />
                     </Stack>
                     <Stack horizontal className="row3">

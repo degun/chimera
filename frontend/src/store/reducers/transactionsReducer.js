@@ -26,7 +26,7 @@ const getTransactionsList = (state, action) => {
 }
 
 const getClientsList = (state, action) => {
-    return {...state, clients: action.clients}
+    return {...state, clients: action.clients.map(c => c.client_name)}
 }
 
 const beginEdit = (state, action) => {
@@ -46,7 +46,7 @@ const endAdd = state => {
 }
 
 const addSuccess = (state, action) => {
-    return {...state, transactions: [ action.transaction,...state.transactions], clients: [ action.transaction.client_name, ...state.clients] }
+    return {...state, transactions: [ action.transaction,...state.transactions]}
 }
 
 const removeSuccess = (state, action) => {
