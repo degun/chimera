@@ -67,7 +67,7 @@ class ClientSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Transaction
-        fields = ('client_name')
+        fields = ['client_name']
 
 
 class LogSerializer(serializers.ModelSerializer):
