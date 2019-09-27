@@ -160,9 +160,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
         super(Transaction, self).save()
 
 class ClientViewSet(viewsets.ModelViewSet):
-    queryset = set(Transaction.objects.all().exclude(client_name__exact="-"))
+    queryset = Transaction.objects.all()
     serializer_class = ClientSerializer
 
+    def get_queryset(self):
+        queryset = Transaction.objects.all()
+        queryset = queryset.exclude(client_name__exact="-")
+        queryset = list(set(queryset))
+        return queryset
 
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()
