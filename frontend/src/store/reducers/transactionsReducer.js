@@ -46,7 +46,7 @@ const endAdd = state => {
 }
 
 const addSuccess = (state, action) => {
-    return {...state, transactions: [ action.transaction,...state.transactions] }
+    return {...state, transactions: [ action.transaction,...state.transactions], clients: [ action.transaction.client_name, ...state.clients] }
 }
 
 const removeSuccess = (state, action) => {
