@@ -1,8 +1,13 @@
 import numeral from 'numeral';
 
 export function urltoid(url){
-    const arr = url.split("/");
-    return arr[arr.length - 2];
+    let arr;
+    if(url){
+        arr = url.split("/");
+        return arr[arr.length - 2];
+    }else{
+        return 0
+    }
 }
 
 export function formatText(text){

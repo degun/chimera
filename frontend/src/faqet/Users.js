@@ -35,7 +35,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
     const [roleFilter, setRoleFilter] = useState("partner");
 
     useEffect(()=>{
-        getUsers()
+        getUsers();
     }, [getUsers])
 
     const columns = [
@@ -137,7 +137,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             url: user.url
         }
     }), sortkey, ascending).filter(u => {
-        return (u.email.indexOf(searchStr) !== -1) || (u.username.indexOf(searchStr) !== -1)
+        return (u.email.indexOf(searchStr) !== -1) || (u.username.toLowerCase().indexOf(searchStr) !== -1)
     }).filter(u => {
         switch(roleFilter){
             case "partner": return !u.staff;
