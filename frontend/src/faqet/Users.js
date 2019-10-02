@@ -55,8 +55,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             key: 'email',
             name: 'Email',
             fieldName: 'email',
-            minWidth: 150,
-            maxWidth: 200,
+            minWidth: 200,
+            maxWidth: 230,
             isSorted: sortkey === 'email',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -64,23 +64,11 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             isPadded: true
         },
         {
-            key: 'password',
-            name: 'Password',
-            fieldName: 'password',
-            minWidth: 120,
-            maxWidth: 140,
-            isSorted: sortkey === 'password',
-            isSortedDescending: ascending,
-            onColumnClick: onColumnClick,
-            data: 'date',
-            isPadded: true
-        },
-        {
             key: 'last_login',
             name: 'Last login',
             fieldName: 'last_login',
-            minWidth: 100,
-            maxWidth: 120,
+            minWidth: 80,
+            maxWidth: 100,
             isSorted: sortkey === 'last_login',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -91,8 +79,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             key: 'balance',
             name: 'Balance',
             fieldName: 'balance',
-            minWidth: 100,
-            maxWidth: 150,
+            minWidth: 80,
+            maxWidth: 90,
             isSorted: sortkey === 'balance',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -104,7 +92,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             name: 'Wire Rate',
             fieldName: 'Wrate',
             minWidth: 40,
-            maxWidth: 150,
+            maxWidth: 40,
             isSorted: sortkey === 'Wrate',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -115,8 +103,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             key: 'CCrate',
             name: 'Credit Card Rate',
             fieldName: 'CCrate',
-            minWidth: 40,
-            maxWidth: 150,
+            minWidth: 85,
+            maxWidth: 85,
             isSorted: sortkey === 'CCrate',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -177,7 +165,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             case 'is_active':
                 return fieldContent ? <Icon iconName="StatusCircleInner" styles={{root: {marginLeft: '14px'}}} /> : null;
             case 'balance':
-                return numeral(fieldContent).format('0,0.00 $')
+                return <span style={{textAlign: 'right'}}>{numeral(fieldContent).format('0,0.00 $')}</span>
             default:
               return <span>{fieldContent}</span>;
           }

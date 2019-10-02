@@ -163,7 +163,7 @@ export const toggleActive = (url, is_active) => {
         const {username} = user;
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
-        axios.patch(url, {is_active, partner_data: {}},{headers: {"Authorization": bearer}})
+        axios.patch(url.replace('http', 'https'), {is_active, partner_data: {}},{headers: {"Authorization": bearer}})
         .then(res => {
             dispatch({type: types.USERS_ARCHIVE_SUCCESS, data: res.data});
             dispatch({type: types.USERS_END_EDIT});

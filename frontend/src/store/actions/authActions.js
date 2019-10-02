@@ -92,13 +92,6 @@ export const login = (email, password) => {
     }
 }
 
-export const resetPassword = email => {
-    return dispatch => {
-        axios.post('https://api.chimera-finance.com/api/auth/password/reset/', {email});
-        dispatch({type: types.AUTH_RESET_PASSWORD});
-    }
-}
-
 export const changePassword = (new_password1, new_password2) => {
     return (dispatch, getState) => {
         const state = getState();

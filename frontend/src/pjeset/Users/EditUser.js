@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 import { DefaultButton, PrimaryButton, ActionButton } from 'office-ui-fabric-react';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { editUser, removeUser,toggleActive, endEdit } from '../../store/actions/usersActions';
+import { urltoid } from '../../useful';
 import './EditUser.sass';
 
 function EditUser({editing, endEdit, username, email, Wrate, CCrate, balance, active, staff, url, save, remove, toggleActiveState}){
@@ -36,6 +38,9 @@ function EditUser({editing, endEdit, username, email, Wrate, CCrate, balance, ac
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={_balance || 0} onChange={({target}) => setBalance(target.value)} />
                         <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={_Wrate || undefined} onChange={({target}) => setWRate(target.value)} /> 
                         <TextField type="number" step={0.01} min={0} max={1} label="Credit Card Rate" name="credit card rate" placeholder="rate" value={_CCrate || undefined} onChange={({target}) => setCCRate(target.value)} /> 
+                    </Stack>
+                    <Stack horizontal>
+                        <Link className="changePassword" target="_blank" href={`https://api.chimera-finance.com/admin/api/user/${urltoid(url)}/password/`}>Change password</Link>
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endEdit()}text="Cancel" />
