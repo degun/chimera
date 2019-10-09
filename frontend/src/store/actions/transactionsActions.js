@@ -15,8 +15,9 @@ export const getAllTransactions = () => {
         const {client, types, partners, fromDate, toDate} = filters;
         let q = `?from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
         if(client){q+=`client=${client}&`}
-        if(!allTypesSelected){q+=`types=${types}&,`}
-        if(admin){q+=`partners=${partners}&,`};
+        if(!allTypesSelected){q+=`types=${types}&`}
+        if(admin){q+=`partners=${partners}&`};
+        console.log(q);
         const bearer = 'Bearer ' + token;
         if(!types.length || (admin && !partners.length)){
             dispatch({
