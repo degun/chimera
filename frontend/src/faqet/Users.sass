@@ -7,6 +7,8 @@
     justify-content: flex-start
     align-items: center
     .table
+        td:last-child
+            max-width: 20px
         height: calc(100vh - 150px)
         overflow-y: auto
         overflow-x: hidden
@@ -18,3 +20,5 @@
             font-weight: bold
         [data-automation-key="Wrate"], [data-automation-key="CCrate"]
             text-align: center
+        [data-automation-key="is_active"], [data-item-key="is_active"]
+            width: 90px !important

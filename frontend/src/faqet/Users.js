@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import { DetailsList, SelectionMode, DetailsRow } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, DetailsRow, DetailsListLayoutMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { MarqueeSelection } from 'office-ui-fabric-react/lib/MarqueeSelection';
 import { PrimaryButton } from 'office-ui-fabric-react';
@@ -117,8 +117,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             fieldName: 'active',
             minWidth: 60,
             maxWidth: 100,
-            onColumnClick: onColumnClick,
-            isPadded: false
+            isPadded: true
         }
     ];
 
@@ -211,13 +210,16 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
                     <DetailsList
                         className="table"
                         maxWidth={960}
+                        minWidth={960}
                         items={data}
                         compact={false}
                         columns={columns}
-                        selectionMode={SelectionMode.none}
-                        isHeaderVisible={true}
                         onItemInvoked={onItemInvoked}
+                        enableShimmer={!data}
+                        isHeaderVisible={true}
                         checkboxVisibility={2}
+                        selectionMode={SelectionMode.multiple}
+                        layoutMode={DetailsListLayoutMode.justified}
                         onRenderItemColumn={onRenderItemColumn}
                         onRenderRow={onRenderRow}
                     />
