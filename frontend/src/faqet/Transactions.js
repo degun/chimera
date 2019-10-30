@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import { DetailsList, SelectionMode, DetailsListLayoutMode, DetailsRow } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, DetailsListLayoutMode, DetailsRow, ConstrainMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
@@ -411,7 +411,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
                         maxWidth={admin ? 960 : 720}
                         height={'70%'}
                         items={data}
-                        compact={false}
+                        compact={true}
                         columns={admin ? columns : partnerColumns}
                         onItemInvoked={editTransaction}
                         enableShimmer={!data}
@@ -421,6 +421,8 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
                         layoutMode={DetailsListLayoutMode.justified}
                         onRenderItemColumn={renderItemColumn}
                         onRenderRow={renderRow}
+                        onShouldVirtualize={()=>false}
+                        constrainMode={ConstrainMode.unconstrained}
                     />
                 </MarqueeSelection>
             </Fabric>
