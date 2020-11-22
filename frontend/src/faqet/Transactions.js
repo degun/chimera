@@ -318,7 +318,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
 
     let data = []
     
-    data = transactions.filter(({transaction_type}) => transaction_type !== 'BTC').map(t => {
+    data = transactions.filter(({transaction_type}) => (!admin && !btc) ? transaction_type !== 'BTC' : true ).map(t => {
         return {
             id: t.id,
             transaction_type: t.transaction_type,
