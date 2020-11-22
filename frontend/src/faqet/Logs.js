@@ -11,8 +11,11 @@ import { IconButton } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { formatText, formatDate } from '../useful';
+import { HOST } from '../config';
 import * as t from '../store/actions/logTypes';
 import './Logs.sass';
+
+const host = HOST.replace("https", "http");
 
 function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilter}){
 
@@ -41,7 +44,7 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
 
     function getUsername(user){
         if(users.length){
-            const filteredUser = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`);
+            const filteredUser = users.filter(u=> u.url === `${host}/api/users/${user}/`);
             if(filteredUser.length){
                 return "@" + filteredUser[0].username;
             }else{

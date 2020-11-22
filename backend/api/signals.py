@@ -13,7 +13,7 @@ def announce_create_transaction(sender, instance, created, **kwargs):
         username = user.username
         transaction_type = instance.transaction_type
         message = ""
-        if(transaction_type == "Wire" or transaction_type == "Credit Card"):
+        if(transaction_type == "Wire" or transaction_type == "Credit Card" or transaction_type == "BTC"):
             message = "A new deposit of {} € was made by client {} via {} and {} € were assigned to your account.".format(instance.amount, instance.client_name, instance.transaction_type, instance.amount_paid)
         if(transaction_type == "Withdraw"):
             message = "Client {} withdrawed {} €. Your balance was decreased by {} €.".format(instance.client_name, instance.amount, instance.amount_paid)
@@ -37,7 +37,7 @@ def announce_delete_transaction(sender, instance, **kwargs):
     username = user.username
     transaction_type = instance.transaction_type
     message = ""
-    if(transaction_type == "Wire" or transaction_type == "Credit Card"):
+    if(transaction_type == "Wire" or transaction_type == "Credit Card" or transaction_type == "BTC"):
         message = "A transaction of {} €, made by client {} via {} was deleted. Your balance was decreased by {} €.".format(instance.amount, instance.client_name, instance.transaction_type, instance.amount_paid)
     if(transaction_type == "Withdraw"):
         message = "A withdrawal of {} € by client {} was deleted. Your balance was increased by {} €.".format(instance.amount, instance.client_name, instance.amount_paid)

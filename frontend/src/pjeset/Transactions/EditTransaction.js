@@ -9,7 +9,10 @@ import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { editTransaction, endEdit } from '../../store/actions/transactionsActions';
+import { HOST } from '../../config';
 import './EditTransaction.sass';
+
+const host = HOST.replace("https", "http");
 
 numeral.locale('al');
 
@@ -79,7 +82,7 @@ function EditTransaction({editing, endEdit, edit, users, data}){
 
     function selectPartner(e, {key}){
         setPartner(key);
-        const url = `http://api.chimera-finance.com/api/users/${key}/`;
+        const url = `${host}/api/users/${key}/`;
         setCurrentPartner(users.filter(u=>u.url === url)[0]);
     }
 

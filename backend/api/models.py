@@ -18,18 +18,29 @@ class UserProfile(models.Model):
     balance = models.DecimalField(max_digits=9, decimal_places=2, default=0)
     Wrate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
     CCrate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
+    BTCrate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
+    btc = models.BooleanField(default=False)
 
 class Transaction(models.Model):
     transaction_type = models.CharField(max_length=12)
     client_name = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     rate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
-    user = models.ForeignKey(User, related_name='partner', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='partner', on_delete=models.CASCADE)
     amount_paid = models.DecimalField(max_digits=9, decimal_places=2)
     entry_time = models.DateTimeField(auto_now_add=True)
+
+# class TransactionType(models.Model):
+#     transaction_type = models.CharField(max_length=12, unique=True, primary_key=True)
+#     accounting_key = models.CharField(max_length=1)
+
+# class UserTransaction(models.Model):
+#     transaction_type = models.ForeignKey(TransactionType)
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transaction_types')
+#     rate = models.DecimalField(max_digits=3, decimal_places=2, default=1)
 
 class Log(models.Model):
     log_type = models.CharField(max_length=20)
     message = models.CharField(max_length=160)
     entry_time = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, related_name='user', null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', null=True, blank=True, on_delete=models.SET_NULL)

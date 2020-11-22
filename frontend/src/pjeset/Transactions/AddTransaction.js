@@ -29,6 +29,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         switch(type){
             case "Wire": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2)); break;
             case "Credit Card": setRate(parseFloat(currentPartner.partner_data.CCrate).toPrecision(2)); break;
+            case "BTC": setRate(parseFloat(currentPartner.partner_data.BTCrate).toPrecision(2)); break;
             case "Withdraw": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2));break;
             case "Payment": setRate(1) ;break;
             default: setRate(1);break;
@@ -65,6 +66,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
     const transaction_types = [
         { key: 'Wire', text: 'Wire' },
         { key: 'Credit Card', text: 'Credit Card' },
+        { key: 'BTC', text: 'BTC' },
         { key: 'Withdraw', text: 'Withdraw' },
         { key: 'Payment', text: 'Payment' }
     ];
@@ -82,24 +84,23 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         setClientNames([{key: client, text: client}, ...client_names])
     }
 
-    const partners = users.filter(u => (!u.is_staff && u.is_active)).map(u=>{
-        const urlArray = u.url.split("/");
+    const partners = users.filter(u => (!u.is_staff && u.is_active && (type === 'BTC' ? u.partner_data.btc : true))).map(({id, username}) => {
         return {
-            key: urlArray[urlArray.length - 2],
-            text: u.username
+            key: id,
+            text: username
         }
     })
 
     function selectPartner(e, {key}){
         setPartner(key);
-        const url = `http://api.chimera-finance.com/api/users/${key}/`;
-        setCurrentPartner(users.filter(u=>u.url === url)[0]);
+        setCurrentPartner(users.filter(u=>u.id === key)[0]);
     }
 
     function setTheSign(type){
         switch(type){
             case "Wire": setSign(1); break;
             case "Credit Card": setSign(1); break;
+            case "BTC": setSign(1); break;
             case "Withdraw": setSign(-1);break;
             case "Payment": setSign(-1) ;break;
             default: setSign(1);break;
@@ -120,6 +121,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
     switch(type){
         case 'Wire': color = '#fce100'; break;
         case 'Credit Card': color = '#ffaa44'; break;
+        case 'BTC': color = '#8e41be'; break;
         case 'Withdraw': color = '#da3b01'; break;
         case 'Payment': color = '#00b7c3'; break;
         default: color = 'white'; break;

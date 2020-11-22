@@ -5,6 +5,8 @@ import numeral from 'numeral';
 import { updateUserLocally, updateAdminLocally } from './usersActions';
 import { logout } from './authActions';
 import { addLog } from './logsActions';
+import { HOST } from '../../config';
+import { urltoid } from '../../useful';
 
 export const getAllTransactions = () => {
     return (dispatch, getState) => {
@@ -17,7 +19,6 @@ export const getAllTransactions = () => {
         if(client){q+=`client=${client}&`}
         if(!allTypesSelected){q+=`types=${types}&`}
         if(admin){q+=`partners=${partners}&`};
-        console.log(q);
         const bearer = 'Bearer ' + token;
         if(!types.length || (admin && !partners.length)){
             dispatch({
@@ -25,8 +26,13 @@ export const getAllTransactions = () => {
                 transactions: []
             })
         }else{
-            axios.get(`https://api.chimera-finance.com/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
-                const transactions = res.data;
+            axios.get(`${HOST}/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
+                const transactions = res.data.map(({url, ...others}) => {
+                    return {
+                        id: urltoid(url),
+                        ...others
+                    }
+                });
                 dispatch({
                     type: actionTypes.TRANSACTIONS_GET_LIST,
                     transactions
@@ -46,7 +52,7 @@ export const getAllClients = () => {
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
-        axios.get(`https://api.chimera-finance.com/api/clients/`, { headers: { 'Authorization': bearer } }).then(res => {
+        axios.get(`${HOST}/api/clients/`, { headers: { 'Authorization': bearer } }).then(res => {
             const clients = res.data;
             dispatch({
                 type: actionTypes.TRANSACTIONS_GET_CLIENTS_LIST,
@@ -93,11 +99,11 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
     return (dispatch, getState) => {
         const state = getState();
         const {users} = state.users;
-        const user0 = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`)[0];
+        const user0 = users.filter(u=> u.id === user)[0];
         const {username} = user0;
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
-        axios.post("https://api.chimera-finance.com/api/transactions/", {
+        axios.post(`${HOST}/api/transactions/`, {
             transaction_type, client_name, amount, amount_paid, rate, user
         },{
             headers: {"Authorization": bearer}
@@ -132,7 +138,7 @@ export const editTransaction = (transaction_type, client_name, amount, amount_pa
         const {username} = transaction0;
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
-        axios.post("https://api.chimera-finance.com/api/transactions/", {
+        axios.post(`${HOST}/api/transactions/`, {
             transaction_type, client_name, amount, amount_paid, rate, user
         },{
             headers: {"Authorization": bearer}
@@ -164,12 +170,12 @@ export const removeTransaction = id => {
         const state = getState();
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
-        axios.delete(`https://api.chimera-finance.com/api/transactions/${id}/`,{headers: {"Authorization": bearer}})
+        axios.delete(`${HOST}/api/transactions/${id}/`,{headers: {"Authorization": bearer}})
         .then(() => {
             const {transactions} = state.transactions;
             const {amount, amount_paid, client_name, user, rate, transaction_type} = transactions.filter(t=>t.id === id)[0];
             const {users} = state.users;
-            const user0 = users.filter(u=> u.url === `http://api.chimera-finance.com/api/users/${user}/`)[0];
+            const user0 = users.filter(u=> u.url === `${HOST}/api/users/${user}/`)[0];
             const {username} = user0;
             const adminAmount = numeral(parseFloat(amount)).format('0,0.00 $');
             const partnerAmount = numeral(parseFloat(amount_paid)).format('0,0.00 $');

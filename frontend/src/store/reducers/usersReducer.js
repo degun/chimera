@@ -33,14 +33,14 @@ const addSuccess = (state, action) => {
 
 const removeSuccess = (state, action) => {
     const newUsers = state.users.filter(user => {
-        return user.url !== action.url
+        return user.id !== action.id
     });
     return {...state, users: newUsers}
 }
 
 const updateUsersList = (state, action) => {
     const newUsers = state.users.map(user => {
-        if(user.url === action.data.url){
+        if(user.id === action.data.id){
             return action.data
         }else{
             return user

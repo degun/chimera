@@ -55,8 +55,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             key: 'email',
             name: 'Email',
             fieldName: 'email',
-            minWidth: 200,
-            maxWidth: 230,
+            minWidth: 180,
+            maxWidth: 200,
             isSorted: sortkey === 'email',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -89,10 +89,10 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
         },
         {
             key: 'Wrate',
-            name: 'Wire Rate',
+            name: 'Wire',
             fieldName: 'Wrate',
-            minWidth: 40,
-            maxWidth: 40,
+            minWidth: 30,
+            maxWidth: 30,
             isSorted: sortkey === 'Wrate',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
@@ -101,14 +101,34 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
         },
         {
             key: 'CCrate',
-            name: 'Credit Card Rate',
+            name: 'CC',
             fieldName: 'CCrate',
-            minWidth: 85,
-            maxWidth: 85,
+            minWidth: 30,
+            maxWidth: 30,
             isSorted: sortkey === 'CCrate',
             isSortedDescending: ascending,
             onColumnClick: onColumnClick,
             data: 'number',
+            isPadded: true
+        },
+        {
+            key: 'BTCrate',
+            name: 'BTC',
+            fieldName: 'BTCrate',
+            minWidth: 30,
+            maxWidth: 30,
+            isSorted: sortkey === 'BTCrate',
+            isSortedDescending: ascending,
+            onColumnClick: onColumnClick,
+            data: 'number',
+            isPadded: true
+        },
+        {
+            key: 'btc',
+            name: 'BTC on',
+            fieldName: 'btc',
+            minWidth: 40,
+            maxWidth: 40,
             isPadded: true
         },
         {
@@ -123,6 +143,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
 
     const data = sortByKey(users.map(user => {
         return {
+            id: user.id,
             email: user.email,
             last_login: moment(new Date(user.last_login)).fromNow().replace("50 years ago", 'never'),
             date_joined: moment(new Date(user.date_joined)).fromNow(),
@@ -131,9 +152,10 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             balance: parseFloat(user.partner_data.balance),
             Wrate: user.partner_data.Wrate,
             CCrate: user.partner_data.CCrate,
+            BTCrate: user.partner_data.BTCrate,
+            btc: user.partner_data.btc,
             active: user.is_active,
-            staff: user.is_staff,
-            url: user.url
+            staff: user.is_staff
         }
     }), sortkey, ascending).filter(u => {
         return (u.email.indexOf(searchStr) !== -1) || (u.username.toLowerCase().indexOf(searchStr) !== -1)
@@ -163,6 +185,8 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
         switch (column.key) {
             case 'is_active':
                 return fieldContent ? <Icon iconName="StatusCircleInner" styles={{root: {marginLeft: '14px'}}} /> : null;
+            case 'btc':
+                return fieldContent ? <Icon iconName="StatusCircleInner" styles={{root: {marginLeft: '14px'}}} /> : null;
             case 'balance':
                 return <span style={{textAlign: 'right'}}>{numeral(fieldContent).format('0,0.00 $')}</span>
             default:
@@ -177,6 +201,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
     editData = data.filter(user => {
         return user.email === editingThis
     })[0]
+
     const roles = [
         { key: 'admin', text: 'Admin' },
         { key: 'partner', text: 'Partner' },

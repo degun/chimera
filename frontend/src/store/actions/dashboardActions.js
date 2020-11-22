@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios';
 import {logout} from './authActions';
-
+import { HOST } from '../../config';
 export const setFilter = (filter, value) => {
     return {
         type: types.DASHBOARD_SET_FILTER,
@@ -18,7 +18,7 @@ export const getDashboardData = () => {
         const dateQ = alltime ? '' : `from=${new Date(fromDate).toLocaleDateString("it-IT")}&to=${new Date(toDate).toLocaleDateString("it-IT")}&`;
         let q = `?${dateQ}`;
         const bearer = 'Bearer ' + token;
-        axios.get(`https://api.chimera-finance.com/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
+        axios.get(`${HOST}/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
             dispatch({
                 type: types.DASHBOARD_GET_DATA,
                 data: res.data

@@ -8,7 +8,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('balance', 'Wrate', 'CCrate')
+        fields = ('balance', 'Wrate', 'CCrate', 'BTCrate', 'btc')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,8 +45,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
 
         partner_data.balance = partner_data_data.get('balance', partner_data.balance)
+        partner_data.btc = partner_data_data.get('btc', partner_data.btc)
         partner_data.Wrate = partner_data_data.get('Wrate', partner_data.Wrate)
         partner_data.CCrate = partner_data_data.get('CCrate', partner_data.CCrate)
+        partner_data.BTCrate = partner_data_data.get('BTCrate', partner_data.BTCrate)
         partner_data.save()
 
         admin = UserProfile.objects.get(user_id=admin_id)

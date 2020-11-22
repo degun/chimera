@@ -20,11 +20,14 @@ import { formatDate } from '../useful';
 import { beginEdit, beginAdd, removeTransaction, getAllTransactions, getAllClients, setTransactionsFilter, setAllPartnersSelected, setAllTypesSelected } from '../store/actions/transactionsActions';
 import AddTransaction from '../pjeset/Transactions/AddTransaction';
 import EditTransaction from '../pjeset/Transactions/EditTransaction';
+import { HOST } from '../config';
 import './Transactions.sass';
+
+const host = HOST.replace("https", "http")
 
 numeral.locale('al');
 
-function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editing, editData, transactions, remove, getTransactions, getClients, setFilter, filters, allPartners, allTypes}){
+function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editing, editData, transactions, remove, getTransactions, getClients, setFilter, filters, allPartners, allTypes, btc}){
 
     const [deleting, setDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState(0);
@@ -36,30 +39,25 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
 
     useEffect(()=> {
         if(!partners.length){
-            setFilter('partners', users.filter(u=> !u.is_staff).map(u => {
-                const urlArray = u.url.split("/");
-                const key = urlArray[urlArray.length - 2];
-                return key
-            }));
+            setFilter('partners', users.filter(u=> !u.is_staff).map(({id}) => id));
         }
         if(!types.length){
-            setFilter('types', ['Wire', 'Credit Card', 'Withdraw', 'Payment']);
+            setFilter('types', ['Wire', 'Credit Card', 'BTC', 'Withdraw', 'Payment']);
         }
     }, [setFilter, users])
 
-    const partnersDropdown = users.filter(u => !u.is_staff).map(u=>{
-        const urlArray = u.url.split("/");
-        const key = urlArray[urlArray.length - 2];
+    const partnersDropdown = users.filter(u => !u.is_staff).map(({id, username}) => {
         return {
-            key,
-            text: u.username,
-            selected: partners.includes(key)
+            key: id,
+            text: username,
+            selected: partners.includes(id)
         }
     });
 
     const typesDropdown = [
         { key: 'Wire', text: 'Wire', selected: types.includes('Wire') },
         { key: 'Credit Card', text: 'Credit Card', selected: types.includes('Credit Card') },
+        { key: 'BTC', text: 'BTC', selected: types.includes('BTC') },
         { key: 'Withdraw', text: 'Withdraw', selected: types.includes('Withdraw') },
         { key: 'Payment', text: 'Payment', selected: types.includes('Payment') }
     ];
@@ -296,6 +294,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
         switch(row.item.transaction_type){
             case 'Wire': color = '#fce100'; break;
             case 'Credit Card': color = '#ffaa44'; break;
+            case 'BTC': color = '#8e41be'; break;
             case 'Withdraw': color = '#da3b01'; break;
             case 'Payment': color = '#00b7c3'; row.item.amount = ''; row.item.rate = ''; break;
             default: color = 'white'; break;
@@ -319,14 +318,14 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
 
     let data = []
     
-    data = transactions.map(t => {
+    data = transactions.filter(({transaction_type}) => transaction_type !== 'BTC').map(t => {
         return {
             id: t.id,
             transaction_type: t.transaction_type,
             client: t.client_name,
             amount: numeral(parseFloat(t.amount)).format('0,0.00 $'),
             rate: numeral(parseFloat(t.rate)).format('0 %'),
-            partner: admin ? users.filter(u => u.url === `http://api.chimera-finance.com/api/users/${t.user}/`)[0].username : null,
+            partner: admin ? users.filter(u => parseInt(u.id) === t.user)[0].username : null,
             amount_paid: numeral(parseFloat(t.amount_paid)).format('0,0.00 $'),
             created_at: moment(new Date(t.entry_time)).format("DD/MM/YYYY hh:mm:ss"),
         }
@@ -354,7 +353,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
         setFilter('partners', p.filter(p => p.selected).map(p=> p.key));
     }
 
-    function changeSelectedTypes(e, e2){
+    function changeSelectedTypes(_, e2){
         const t = typesDropdown.map(type => {
             if(type.key === e2.key){
                 return e2
@@ -377,7 +376,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
                             selectedKeys={types}
                             onChange={changeSelectedTypes}
                             multiSelect
-                            options={[{ key: 'typesHeader', text: 'Types', itemType: DropdownMenuItemType.Header },...typesDropdown]}
+                            options={[{ key: 'typesHeader', text: 'Types', itemType: DropdownMenuItemType.Header },...typesDropdown.filter(t => (btc || admin) ? t : t.key !== 'BTC')]}
                             style={{width: 120, textAlign: 'left'}}
                         />
                         <SearchBox styles={{root: {width: 150}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}} value={client} placeholder="Client name..." onChange={({target}) => setFilter('client',target.value.toLowerCase())} />
@@ -463,6 +462,7 @@ const mapStateToProps = state => {
         token: state.auth.token,
         admin: state.auth.admin,
         balance: state.auth.balance,
+        btc: state.auth.btc,
         users: state.users.users,
         transactions: state.transactions.transactions,
         editing: state.transactions.editing,
@@ -478,7 +478,7 @@ const mapDispatchToProps = dispatch => {
         setToken: token => dispatch(setToken(token)),
         beginAdd: () => dispatch(beginAdd()),
         beginEdit: id => dispatch(beginEdit(id)),
-        remove: url => dispatch(removeTransaction(url)),
+        remove: id => dispatch(removeTransaction(id)),
         getTransactions: () => dispatch(getAllTransactions()),
         getClients: () => dispatch(getAllClients()),
         setFilter: (filter, value) => dispatch(setTransactionsFilter(filter, value)),

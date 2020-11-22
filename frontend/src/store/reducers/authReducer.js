@@ -23,7 +23,8 @@ const authSuccess = (state, action) => {
         email: action.email,
         username: action.username,
         admin: action.is_staff,
-        balance: action.balance
+        balance: action.balance,
+        btc: action.btc
     }
 }
 

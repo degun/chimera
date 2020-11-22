@@ -7,7 +7,6 @@ import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { addUser, endAdd } from '../../store/actions/usersActions';
-import axios from 'axios';
 import './AddUser.sass';
 
 function AddUser({adding, endAdd, add, users}){
@@ -18,6 +17,7 @@ function AddUser({adding, endAdd, add, users}){
     const [balance, setBalance] = useState(0);
     const [Wrate, setWRate] = useState(1);
     const [CCrate, setCCRate] = useState(1);
+    const [BTCrate, setBTCRate] = useState(1);
     const [isReady, setReady] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
@@ -113,14 +113,15 @@ function AddUser({adding, endAdd, add, users}){
                     <Stack horizontal>
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={balance} onChange={({target}) => setBalance(target.value)} />
                         <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={Wrate} onChange={({target}) => setWRate(target.value)} /> 
-                        <TextField type="number" step={0.01} min={0} max={1} label="Credit Card Rate" name="credit card rate" placeholder="rate" value={CCrate} onChange={({target}) => setCCRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Credit Card R." name="credit card rate" placeholder="rate" value={CCrate} onChange={({target}) => setCCRate(target.value)} />
+                        <TextField type="number" step={0.01} min={0} max={1} label="BTC Rate" name="BTC rate" placeholder="rate" value={BTCrate} onChange={({target}) => setBTCRate(target.value)} />  
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endAdd()} text="Cancel" />
                         <PrimaryButton 
                             disabled={!isReady}
                             className="add"
-                            onClick={()=>add(username, email, password1, {balance, Wrate, CCrate})}
+                            onClick={()=>add(username, email, password1, {balance, Wrate, CCrate, BTCrate})}
                             text="Add" />
                     </Stack>
                 </Stack>

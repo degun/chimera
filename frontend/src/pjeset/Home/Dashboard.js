@@ -10,9 +10,12 @@ import { ComboBox } from 'office-ui-fabric-react/lib/index';
 import { setFilter, getDashboardData } from '../../store/actions/dashboardActions';
 import AnimatedNumber from 'animated-number-react';
 import { round2 } from '../../useful';
+import { HOST } from '../../config';
 import './Dashboard.sass';
 
-function Dashboard({admin, balance, users, setFilter, filters, getData, data, partnerId}){
+const host = HOST.replace("https", "http");
+
+function Dashboard({admin, balance, users, setFilter, filters, getData, data, partnerId, btc}){
 
     let {fromDate, toDate, partner, alltime} = filters;
 
@@ -26,8 +29,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
     toDate = new Date(toDate);
 
     const partnersDropdown = users.filter(u=> !u.is_staff).map(u => {
-        const urlArray = u.url.split("/");
-        const key = urlArray[urlArray.length - 2];
+        const key = u.id;
         return {key, text: u.username}
     });
 
@@ -53,6 +55,9 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                 cc: round2(partnerData.filter(p => p.entry_time === d).filter(d => d.transaction_type === "Credit Card").reduce((acc, a)=>{
                     return parseFloat(a.amount) + acc
                 }, 0)),
+                btc: round2(partnerData.filter(p => p.entry_time === d).filter(d => d.transaction_type === "BTC").reduce((acc, a)=>{
+                    return parseFloat(a.amount) + acc
+                }, 0)),
                 profit: round2(partnerData.filter(p => p.entry_time === d).reduce((da, a)=>{
                     return parseFloat(a.amount) - parseFloat(a.amount_paid) + da
                 }, 0))
@@ -62,10 +67,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
 
     function prepareAllUsersData(d){
         d = d.filter(t => t.transaction_type !== "Payment");
-        const partners = users.filter(u=>!u.is_staff).map(u => {
-            const urlArray = u.url.split("/");
-            const id = parseInt(urlArray[urlArray.length - 2]);
-            const username = u.username
+        const partners = users.filter(u=>!u.is_staff).map(({id, username}) => {
             return {id, username}
         });
         return partners.map(p => {
@@ -75,6 +77,9 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
                 cc: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
+                    return parseFloat(a.amount) + accumulator
+                }, 0)),
+                btc: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "BTC").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
                 profit: round2(d.filter(d => parseInt(d.user) === p.id).reduce((accumulator, a)=>{
@@ -87,14 +92,16 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
     const alldata = prepareAllUsersData(data);
     const allUsersWire = alldata.reduce((acc, b)=> acc + b.wire, 0);
     const allUsersCC = alldata.reduce((acc, b)=> acc + b.cc, 0);
-    const allUsersDeposits = allUsersWire + allUsersCC;
+    const allUsersBTC = alldata.reduce((acc, b)=> acc + b.btc, 0);
+    const allUsersDeposits = allUsersWire + allUsersCC + allUsersBTC;
     const singleUserData = prepareSingleUserData(selectedPartner);
     const singleUserWire = singleUserData.reduce((acc, b)=> acc + b.wire, 0);
     const singleUserCC = singleUserData.reduce((acc, b)=> acc + b.cc, 0);
-    const singleUserDeposits = singleUserWire + singleUserCC;
+    const singleUserBTC = singleUserData.reduce((acc, b)=> acc + b.btc, 0);
+    const singleUserDeposits = singleUserWire + singleUserCC + singleUserBTC;
     const due = users.filter(u => !u.is_staff).reduce((a, b) => a + parseFloat(b.partner_data.balance), 0);
     const selectedPartnerName = (selectedPartner && admin) ? partnersDropdown.find(p=> p.key === selectedPartner).text : null;
-    const selectedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.url === `http://api.chimera-finance.com/api/users/${selectedPartner}/`).partner_data.balance : balance;
+    const selectedPartnerBalance = (selectedPartner && admin) ? users.find(u => u.id === selectedPartner).partner_data.balance : balance;
     
     return(
         <div id="dashboard">
@@ -123,6 +130,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                     <Legend />
                     <Area type="monotone" dataKey="wire" stackId="one" stroke="#fce100" fill="#fce100" />
                     <Area type="monotone" dataKey="cc" stackId="one" stroke="#ffaa44" fill="#ffaa44" />
+                    {(btc || admin) ? <Area type="monotone" dataKey="btc" stackId="one" stroke="#8e41be" fill="#8e41be" /> : null}
                     {admin ? <Area type="monotone" dataKey="profit" stackId="one" stroke="#82ca9d" fill="darkgreen" /> : null}
                 </AreaChart>
                 <div className="cyphers">
@@ -148,6 +156,10 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                                 <td>Credit Card: </td>
                                 <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserCC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
+                            {(btc || admin) ? <tr>
+                                <td>BTC: </td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(singleUserBTC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
+                            </tr> : null}
                         </tbody>
                     </table>
                 </div>
@@ -165,6 +177,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                     <Legend />
                     <Bar dataKey="wire" fill="#fce100" />
                     <Bar dataKey="cc" fill="#ffaa44" />
+                    <Bar dataKey="btc" fill="#8e41be" />
                     <Bar dataKey="profit" fill="darkgreen" />
                 </BarChart>
                 <div className="cyphers">
@@ -182,6 +195,10 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                                 <td>Credit Card: </td>
                                 <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersCC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
                             </tr>
+                            <tr>
+                                <td>BTC: </td>
+                                <td><Text variant="medium"><AnimatedNumber duration={500} value={parseFloat(allUsersBTC)} formatValue={val => numeral(parseFloat(val)).format("0,0.00 $")} /></Text></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -196,6 +213,7 @@ const mapStateToProps = state => {
         balance: state.auth.balance,
         admin: state.auth.admin,
         partnerId: state.auth.id,
+        btc: state.auth.btc,
         data: state.dashboard.data,
         filters: state.dashboard.filters
     }

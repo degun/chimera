@@ -58,7 +58,7 @@ const removeSuccess = (state, action) => {
 
 const updateTransactionsList = (state, action) => {
     const newTransactions = state.transactions.map(transaction => {
-        if(transaction.url === action.data.url){
+        if(transaction.id === action.data.id){
             return action.data
         }else{
             return transaction

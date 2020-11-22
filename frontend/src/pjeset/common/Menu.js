@@ -44,7 +44,7 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, username}){
               <PivotItem itemKey="4" headerText="Transactions" onClick={() => setMenu("logs")} onRenderItemLink={() => <Link to="/logs"><Icon iconName="TextDocument" /> Logs</Link>} />
             </Pivot>
             <div>
-              <Text variant="large" styles={{root: {verticalAlign: 'middle', color: '#777'}}}>{username}  |  </Text>
+              {/* <Text variant="large" styles={{root: {verticalAlign: 'middle', color: '#777'}}}>{username} </Text> */}
               <DefaultButton
                 className="logout"
                 allowDisabledFocus={true}
