@@ -73,16 +73,16 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
         return partners.map(p => {
             return {
                 name: p.username,
-                wire: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => (d.transaction_type === "Wire" || d.transaction_type === "Withdraw")).reduce((accumulator, a)=>{
+                wire: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => (d.transaction_type === "Wire" || d.transaction_type === "Withdraw")).reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
-                cc: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
+                cc: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
-                btc: round2(d.filter(d => parseInt(d.user) === p.id).filter(d => d.transaction_type === "BTC").reduce((accumulator, a)=>{
+                btc: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => d.transaction_type === "BTC").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
-                profit: round2(d.filter(d => parseInt(d.user) === p.id).reduce((accumulator, a)=>{
+                profit: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).reduce((accumulator, a)=>{
                     return parseFloat(a.amount) - parseFloat(a.amount_paid) + accumulator
                 }, 0))
             }
