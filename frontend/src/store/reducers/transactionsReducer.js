@@ -18,7 +18,8 @@ const initialState = {
         toDate: new Date(today.setHours(23,59,59,0))
     },
     allPartnersSelected: true,
-    allTypesSelected: true
+    allTypesSelected: true,
+    loading: false
 }
 
 const getTransactionsList = (state, action) => {
@@ -79,6 +80,10 @@ const setAllTypesSelected = (state, action) => {
     return {...state, allTypesSelected: action.allTypesSelected}
 }
 
+const setTransactionsLoading = (state, action) => {
+    return {...state, loading: action.loading}
+}
+
 const systemReducer = (state = initialState, action) => {
     switch(action.type){
         case types.TRANSACTIONS_GET_LIST: return getTransactionsList(state, action);
@@ -94,6 +99,7 @@ const systemReducer = (state = initialState, action) => {
         case types.TRANSACTIONS_SET_ALL_PARTNERS_SELECTED: return setAllPartnersSelected(state, action);
         case types.TRANSACTIONS_SET_ALL_TYPES_SELECTED: return setAllTypesSelected(state, action);
         case types.TRANSACTIONS_GET_CLIENTS_LIST: return getClientsList(state, action);
+        case types.TRANSACTIONS_LOADING: return setTransactionsLoading(state, action);
         case types.AUTH_LOGOUT: return {...initialState};
         default: return state;
     }

@@ -7,7 +7,8 @@ const initialState = {
         partner: 0,
         alltime: false
     },
-    data: []
+    data: [],
+    loading: false
 }
 
 const setFilter = (state, action) => {
@@ -18,10 +19,15 @@ const getDashboardData = (state, action) => {
     return {...state, data: action.data}
 }
 
+const setDashboardLoading = (state, action) => {
+    return {...state, loading: action.loading}
+}
+
 const dashboardReducer = (state = initialState, action) => {
     switch(action.type){
         case types.DASHBOARD_GET_DATA: return getDashboardData(state, action);
         case types.DASHBOARD_SET_FILTER: return setFilter(state, action);
+        case types.DASHBOARD_LOADING: return setDashboardLoading(state, action);
         case types.AUTH_LOGOUT: return {...initialState};
         default: return state;
     }

@@ -37,13 +37,13 @@ function AddUser({adding, endAdd, add, users}){
     function checkEmail(){
         if(email){
             const emails = users.map(u => u.email);
-            //var emailRegex = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            //var emailRegex = new RegExp('^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
             emails.forEach(em =>{
                 if (em === email){
                     setErrors({...errors, email: 'User with this email is already present'})
                 }
             })
-            if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+            if(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
                 setErrors({...errors, email: ''})
             }else{
                 setErrors({...errors, email: 'Email not valid'})
@@ -80,7 +80,7 @@ function AddUser({adding, endAdd, add, users}){
 
     function checkUsername(){
         var usernameRegex = new RegExp("^[A-Z]+$", "i");
-        if(username){   
+        if(username){
             if(usernameRegex.test(username)){
                 setErrors({...errors, username: ''})
             }else{
@@ -103,22 +103,22 @@ function AddUser({adding, endAdd, add, users}){
             <form>
                 <Stack>
                     <Stack horizontal>
-                        <TextField label="Email" name="email" placeholder="email" errorMessage={errors.email} value={email} onChange={({target}) => setEmail(target.value)} onBlur={checkEmail} /> 
+                        <TextField label="Email" name="email" placeholder="email" errorMessage={errors.email} value={email} onChange={({target}) => setEmail(target.value)} onBlur={checkEmail} />
                         <TextField label="Username" name="username" placeholder="username" errorMessage={errors.username} value={username} onChange={({target}) => setUsername(target.value)} onBlur={checkUsername} />
                     </Stack>
                     <Stack horizontal>
                         <TextField type="password" label="Password" name="password1" placeholder="password" errorMessage={errors.password} value={password1} onChange={({target}) => setPassword1(target.value)} onBlur={checkPassword} />
-                        <TextField type="password" label="Confirm Password" name="password2" placeholder="confirm password" errorMessage={errors.passwordMatch} value={password2} onChange={({target}) => setPassword2(target.value)} onBlur={checkPassword2} /> 
+                        <TextField type="password" label="Confirm Password" name="password2" placeholder="confirm password" errorMessage={errors.passwordMatch} value={password2} onChange={({target}) => setPassword2(target.value)} onBlur={checkPassword2} />
                     </Stack>
                     <Stack horizontal>
                         <TextField type="number" label="Balance" name="balance" placeholder="balance" value={balance} onChange={({target}) => setBalance(target.value)} />
-                        <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={Wrate} onChange={({target}) => setWRate(target.value)} /> 
+                        <TextField type="number" step={0.01} min={0} max={1} label="Wire Rate" name="wire rate" placeholder="rate" value={Wrate} onChange={({target}) => setWRate(target.value)} />
                         <TextField type="number" step={0.01} min={0} max={1} label="Credit Card R." name="credit card rate" placeholder="rate" value={CCrate} onChange={({target}) => setCCRate(target.value)} />
-                        <TextField type="number" step={0.01} min={0} max={1} label="BTC Rate" name="BTC rate" placeholder="rate" value={BTCrate} onChange={({target}) => setBTCRate(target.value)} />  
+                        <TextField type="number" step={0.01} min={0} max={1} label="BTC Rate" name="BTC rate" placeholder="rate" value={BTCrate} onChange={({target}) => setBTCRate(target.value)} />
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endAdd()} text="Cancel" />
-                        <PrimaryButton 
+                        <PrimaryButton
                             disabled={!isReady}
                             className="add"
                             onClick={()=>add(username, email, password1, {balance, Wrate, CCrate, BTCrate})}

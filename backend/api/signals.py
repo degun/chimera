@@ -30,8 +30,6 @@ def announce_create_transaction(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Transaction)
 def announce_delete_transaction(sender, instance, **kwargs):
-    print("deleted")
-    print(instance)
     user = User.objects.filter(email=instance.user)[0]
     user_id = user.pk
     username = user.username
@@ -51,4 +49,3 @@ def announce_delete_transaction(sender, instance, **kwargs):
             "id": instance.pk
         }
     )
-        

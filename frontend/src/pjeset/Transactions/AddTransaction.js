@@ -24,7 +24,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
     const [rate, setRate] = useState(1);
     const [sign, setSign] = useState(1);
     const [ready, setReady] = useState(false);
-    
+
     useEffect(()=>{
         switch(type){
             case "Wire": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2)); break;
@@ -78,7 +78,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
                 text: c
             }
         }))
-    }, [])
+    }, [clients])
 
     function addClientToClientNames(){
         setClientNames([{key: client, text: client}, ...client_names])
@@ -151,7 +151,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
                     </Stack>
                     <Stack horizontal className="actions">
                         <DefaultButton className="cancel" onClick={()=> endAdd()} text="Cancel" />
-                        <PrimaryButton 
+                        <PrimaryButton
                             className="add"
                             disabled={!ready}
                             onClick={()=>add(type, client, amount, amount_paid, rate, partner)}

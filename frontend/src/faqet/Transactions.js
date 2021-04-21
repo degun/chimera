@@ -20,10 +20,7 @@ import { formatDate } from '../useful';
 import { beginEdit, beginAdd, removeTransaction, getAllTransactions, getAllClients, setTransactionsFilter, setAllPartnersSelected, setAllTypesSelected } from '../store/actions/transactionsActions';
 import AddTransaction from '../pjeset/Transactions/AddTransaction';
 import EditTransaction from '../pjeset/Transactions/EditTransaction';
-import { HOST } from '../config';
 import './Transactions.sass';
-
-const host = HOST.replace("https", "http")
 
 numeral.locale('al');
 
@@ -31,7 +28,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
 
     const [deleting, setDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState(0);
-    
+
     let {client, partners, types, fromDate, toDate} = filters;
 
     fromDate = new Date(fromDate);
@@ -44,7 +41,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
         if(!types.length){
             setFilter('types', ['Wire', 'Credit Card', 'BTC', 'Withdraw', 'Payment']);
         }
-    }, [setFilter, users])
+    }, [setFilter, users, partners.length, types.length])
 
     const partnersDropdown = users.filter(u => !u.is_staff).map(({id, username}) => {
         return {
@@ -61,14 +58,14 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
         { key: 'Withdraw', text: 'Withdraw', selected: types.includes('Withdraw') },
         { key: 'Payment', text: 'Payment', selected: types.includes('Payment') }
     ];
-    
+
     useEffect(()=>{
-        document.title = "Chimera | Transactions"; 
+        document.title = "Chimera | Transactions";
         selectMenu(admin ? "2" : "3");
         getTransactions();
         if(admin){getClients()}
-    }, [selectMenu, getTransactions, admin]);
-    
+    }, [selectMenu, getTransactions, admin, getClients]);
+
     const columns = [
         {
             key: 'id',
@@ -317,7 +314,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
     }
 
     let data = []
-    
+
     data = transactions.filter(({transaction_type}) => (!admin && !btc) ? transaction_type !== 'BTC' : true ).map(t => {
         return {
             id: t.id,
@@ -442,7 +439,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
                 }}
                 >
                 <DialogFooter>
-                    <PrimaryButton styles={{root:{backgroundColor: 'red'}, rootHovered:{backgroundColor: 'orangered'}, rootPressed:{backgroundColor: 'darkred'}, }} 
+                    <PrimaryButton styles={{root:{backgroundColor: 'red'}, rootHovered:{backgroundColor: 'orangered'}, rootPressed:{backgroundColor: 'darkred'}, }}
                         onClick={() => {remove(deletingID); setDeleting(false)}} text="Delete" />
                     <DefaultButton onClick={()=>setDeleting(false)} text="Cancel" />
                 </DialogFooter>

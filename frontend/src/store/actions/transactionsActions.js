@@ -10,6 +10,7 @@ import { urltoid } from '../../useful';
 
 export const getAllTransactions = () => {
     return (dispatch, getState) => {
+        dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: true })
         const state = getState();
         const {token, admin} = state.auth;
         const {allTypesSelected, filters} = state.transactions;
@@ -25,6 +26,7 @@ export const getAllTransactions = () => {
                 type: actionTypes.TRANSACTIONS_GET_LIST,
                 transactions: []
             })
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }else{
             axios.get(`${HOST}/api/transactions/${q}`, { headers: { 'Authorization': bearer } }).then(res => {
                 const transactions = res.data.map(({url, ...others}) => {
@@ -37,14 +39,16 @@ export const getAllTransactions = () => {
                     type: actionTypes.TRANSACTIONS_GET_LIST,
                     transactions
                 })
+                dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
             }).catch(e => {
                 console.log(e)
                 if(e.response && e.response.status === 401){
                     dispatch(logout);
                 }
+                dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
             });
         }
-    }   
+    }
 }
 
 export const getAllClients = () => {
@@ -64,7 +68,7 @@ export const getAllClients = () => {
                 dispatch(logout);
             }
         });
-    }   
+    }
 }
 
 export const beginAdd = () => {
@@ -97,6 +101,7 @@ export const endEdit = () => {
 export const addTransaction = (transaction_type, client_name, amount, amount_paid, rate, user ) => {
     if(transaction_type === "Payment")client_name = "-"
     return (dispatch, getState) => {
+        dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: true })
         const state = getState();
         const {users} = state.users;
         const user0 = users.filter(u=> u.id === user)[0];
@@ -121,10 +126,13 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
                 case 'Withdraw': message = `Client ${client_name} withdrawed ${adminAmount} from main balance. ${partnerAmount} were substracted from ${username}'s balance, given that the actual rate is ${rate}.`; break;
                 case 'Payment': message = `Made payment of ${adminAmount} to ${username}`;break;
                 default: message = `Made transaction of type ${transaction_type}. Partner ${username}, main amount ${adminAmount}, partner amount ${partnerAmount} (because rate is ${rate}).`;break;
-            } 
+            }
             dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
+            dispatch(getAllTransactions());
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }).catch(e => {
             dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
     }
 }
@@ -132,6 +140,7 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
 export const editTransaction = (transaction_type, client_name, amount, amount_paid, rate, user, id ) => {
     if(transaction_type === "Payment")client_name = "-";
     return (dispatch, getState) => {
+        dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: true })
         const state = getState();
         const {transactions} = state.transactions;
         const transaction0 = transactions.filter(t=> t.id === id)[0];
@@ -156,10 +165,13 @@ export const editTransaction = (transaction_type, client_name, amount, amount_pa
                 case 'Withdraw': message = `Client ${client_name} withdrawed ${adminAmount} from main balance. ${partnerAmount} were substracted from ${username}'s balance, given that the actual rate is ${rate}.`; break;
                 case 'Payment': message = `Made payment of ${adminAmount} to ${username}`;break;
                 default: message = `Made transaction of type ${transaction_type}. Partner ${username}, main amount ${adminAmount}, partner amount ${partnerAmount} (because rate is ${rate}).`;break;
-            } 
+            }
             dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
+            dispatch(getAllTransactions());
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }).catch(e => {
             dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
     }
 }
@@ -167,6 +179,7 @@ export const editTransaction = (transaction_type, client_name, amount, amount_pa
 
 export const removeTransaction = id => {
     return (dispatch, getState) => {
+        dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: true })
         const state = getState();
         const token = state.auth.token;
         const bearer = 'Bearer ' + token;
@@ -175,7 +188,7 @@ export const removeTransaction = id => {
             const {transactions} = state.transactions;
             const {amount, amount_paid, client_name, user, rate, transaction_type} = transactions.filter(t=>t.id === id)[0];
             const {users} = state.users;
-            const user0 = users.filter(u=> u.url === `${HOST}/api/users/${user}/`)[0];
+            const user0 = users.filter(u=> u.id === user.toString())[0];
             const {username} = user0;
             const adminAmount = numeral(parseFloat(amount)).format('0,0.00 $');
             const partnerAmount = numeral(parseFloat(amount_paid)).format('0,0.00 $');
@@ -184,8 +197,13 @@ export const removeTransaction = id => {
             dispatch(updateAdminLocally());
             const message = `Removed transaction ${id} of type ${transaction_type}. Client: ${client_name}. Main amount: ${adminAmount}. Partner amount: ${partnerAmount}. Partner: ${username}. Rate ${rate}`;
             dispatch(addLog(user, logTypes.TRANSACTION_REMOVE, message))
+            dispatch(getAllTransactions());
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
-        .catch(e => dispatch({type: actionTypes.TRANSACTIONS_REMOVE_FAIL, error: e}))
+        .catch(e => {
+            dispatch({type: actionTypes.TRANSACTIONS_REMOVE_FAIL, error: e});
+            dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
+        })
     }
 }
 

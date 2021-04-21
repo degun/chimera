@@ -12,7 +12,7 @@ function Notifications({token, getTransactions, updateThisUser}){
     const client = w3cwebsocket(`wss://api.chimera-finance.com/notifications/?${token}`);
     const [anchor, setAnchor] = useState(null);
     const [notifications, setNotifications] = useState([]);
-    
+
     useEffect(()=>{
         client.onopen = () => {
           console.log('WebSocket Client Connected');
@@ -25,7 +25,7 @@ function Notifications({token, getTransactions, updateThisUser}){
             updateThisUser();
         };
         return () => client.close()
-    }, [token])
+    }, [token, client, getTransactions, notifications, updateThisUser])
 
     function Notification({head, body, id, hideNotification}){
         const [active, setActive] = useState(true);
@@ -35,7 +35,7 @@ function Notifications({token, getTransactions, updateThisUser}){
                 hideNotification(id)
             }, 10000);
             return () => clearTimeout(timeoutid)
-        }, [])
+        }, [hideNotification, id])
         return(
             <div>
                 {active ? <Callout

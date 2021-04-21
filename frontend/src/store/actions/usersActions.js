@@ -10,6 +10,7 @@ import * as  logTypes from './logTypes';
 
 export const getAllUsers = () => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING,loading: true})
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
@@ -24,13 +25,15 @@ export const getAllUsers = () => {
                 type: types.USERS_GET_LIST,
                 users
             })
+            dispatch({type: types.USERS_LOADING,loading: false})
         }).catch(e => {
             console.log(e);
             if(e.response && e.response.status === 401){
                 dispatch(logout);
             }
+            dispatch({type: types.USERS_LOADING,loading: false})
         });
-    }   
+    }
 }
 
 export const beginAdd = () => {
@@ -87,6 +90,7 @@ export const updateAdminLocally = () => {
 
 export const addUser = (username, email, password, partner_data) => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING,loading: true})
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
@@ -101,7 +105,9 @@ export const addUser = (username, email, password, partner_data) => {
             dispatch({type: types.USERS_END_ADD});
             dispatch(updateAdminLocally());
             dispatch(addLog(urltoid(url), logTypes.USER_ADD, `Added partner ${username} with initial balance ${numeral(parseFloat(balance)).format('0,0.00 $')} Wire rate ${Wrate}, Credit Card rate ${CCrate} ${btc ? 'and BTC rate ' + BTCrate : ''}.`))
+            dispatch({type: types.USERS_LOADING,loading: false})
         }).catch(e => {
+            dispatch({type: types.USERS_LOADING,loading: false})
             dispatch({type: types.USERS_ADD_FAIL})
         })
     }
@@ -109,6 +115,7 @@ export const addUser = (username, email, password, partner_data) => {
 
 export const editUser = (id, username, email, partner_data) => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING,loading: true})
         const state = getState();
         const {users} = state.users;
         const oldUser = users.filter(u=> u.id === id)[0];
@@ -139,13 +146,18 @@ export const editUser = (id, username, email, partner_data) => {
             const changedBTC = (oldBtc !== btc) ?  (btc ? ' activated BTC' : 'deactivated BTC') : '';
             let message = `Updated ${adminOrPartner}: changed${changedUsername + changedEmail + changedBTC + changedBalance + changedWRate + changedCCRate + changedBTCRate}`.replace(/.$/,".");
             dispatch(addLog(id, logTypes.USER_UPDATE, message))
+            dispatch({type: types.USERS_LOADING,loading: false})
         })
-        .catch(e => dispatch({type: types.USERS_EDIT_FAIL, error: e}))
+        .catch(e => {
+            dispatch({type: types.USERS_EDIT_FAIL, error: e});
+            dispatch({type: types.USERS_LOADING,loading: false})
+        })
     }
 }
 
 export const removeUser = id => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING,loading: true})
         const state = getState();
         const {token} = state.auth;
         const {users} = state.users;
@@ -160,9 +172,13 @@ export const removeUser = id => {
             dispatch(updateAdminLocally());
             dispatch(getAllTransactions());
             const message = `Removed partner ${username}, along with his balance of ${balance} and all his transactions.`;
+            dispatch({type: types.USERS_LOADING,loading: false})
             dispatch(null, logTypes.USER_REMOVE, message)
         })
-        .catch(e => dispatch({type: types.USERS_REMOVE_FAIL, error: e}))
+        .catch(e => {
+            dispatch({type: types.USERS_REMOVE_FAIL, error: e});
+            dispatch({type: types.USERS_LOADING,loading: false})
+        })
     }
 }
 

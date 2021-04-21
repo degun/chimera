@@ -20,7 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve' or self.action == 'list':
             permission_classes = [IsLoggedInUserOrAdmin]
         return [permission() for permission in permission_classes]
-    
+
     def create(self, request):
         serializer = UserSerializer(data=request.data, context={'request': request})
 
@@ -32,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=201)
 
         return Response(serializer.errors, status=400)
-    
+
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -92,7 +92,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         if partners is not None:
             partners = partners.split(',')
             queryset = queryset.filter(user__in=partners)
-        queryset = queryset.order_by('-entry_time')  
+        queryset = queryset.order_by('-entry_time')
         return queryset
 
     def get_permissions(self):
@@ -102,7 +102,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve' or self.action == 'list':
             permission_classes = [IsLoggedInUserOrAdmin]
         return [permission() for permission in permission_classes]
-    
+
     def create(self, request):
         serializer = TransactionSerializer(data=request.data)
 
@@ -114,7 +114,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=201)
 
         return Response(serializer.errors, status=400)
-    
+
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -123,11 +123,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         except Http404:
             pass
         return Response(status=204)
-    
+
     def update_balances_on_create(self, request):
-        allpartners = UserProfile.objects.all()
-        print(allpartners)
-        
         admin_id = request.user.pk
         partner_id = request.data['user']
         amount = request.data['amount']
@@ -187,5 +184,5 @@ class LogViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(entry_time__range=(from_date, to_date))
         if message is not None:
             queryset = queryset.filter(message__icontains=message)
-        queryset = queryset.order_by('-entry_time')      
+        queryset = queryset.order_by('-entry_time')
         return queryset
