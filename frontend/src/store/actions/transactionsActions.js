@@ -128,7 +128,6 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
                 default: message = `Made transaction of type ${transaction_type}. Partner ${username}, main amount ${adminAmount}, partner amount ${partnerAmount} (because rate is ${rate}).`;break;
             }
             dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
-            dispatch(getAllTransactions());
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }).catch(e => {
             dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
@@ -167,7 +166,6 @@ export const editTransaction = (transaction_type, client_name, amount, amount_pa
                 default: message = `Made transaction of type ${transaction_type}. Partner ${username}, main amount ${adminAmount}, partner amount ${partnerAmount} (because rate is ${rate}).`;break;
             }
             dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
-            dispatch(getAllTransactions());
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }).catch(e => {
             dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
@@ -197,7 +195,6 @@ export const removeTransaction = id => {
             dispatch(updateAdminLocally());
             const message = `Removed transaction ${id} of type ${transaction_type}. Client: ${client_name}. Main amount: ${adminAmount}. Partner amount: ${partnerAmount}. Partner: ${username}. Rate ${rate}`;
             dispatch(addLog(user, logTypes.TRANSACTION_REMOVE, message))
-            dispatch(getAllTransactions());
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
         .catch(e => {
