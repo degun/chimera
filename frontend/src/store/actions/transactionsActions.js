@@ -199,6 +199,7 @@ export const removeTransaction = id => {
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
         .catch(e => {
+            console.log({e})
             dispatch({type: actionTypes.TRANSACTIONS_REMOVE_FAIL, error: e});
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
