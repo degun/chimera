@@ -10,7 +10,6 @@ import * as  logTypes from './logTypes';
 
 export const getAllUsers = () => {
     return (dispatch, getState) => {
-        dispatch({type: types.USERS_LOADING,loading: true})
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
@@ -25,13 +24,11 @@ export const getAllUsers = () => {
                 type: types.USERS_GET_LIST,
                 users
             })
-            dispatch({type: types.USERS_LOADING,loading: false})
         }).catch(e => {
             console.log(e);
             if(e.response && e.response.status === 401){
                 dispatch(logout);
             }
-            dispatch({type: types.USERS_LOADING,loading: false})
         });
     }
 }

@@ -104,7 +104,7 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
         dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: true })
         const state = getState();
         const {users} = state.users;
-        const user0 = users.filter(u=> u.id === user)[0];
+        const user0 = users.filter(u=> u.id === user.toString())[0];
         const {username} = user0;
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
@@ -192,6 +192,7 @@ export const removeTransaction = id => {
             const partnerAmount = numeral(parseFloat(amount_paid)).format('0,0.00 $');
             dispatch({type: actionTypes.TRANSACTIONS_REMOVE_SUCCESS, id});
             dispatch({type: actionTypes.TRANSACTIONS_END_EDIT});
+            dispatch(updateUserLocally(user));
             dispatch(updateAdminLocally());
             const message = `Removed transaction ${id} of type ${transaction_type}. Client: ${client_name}. Main amount: ${adminAmount}. Partner amount: ${partnerAmount}. Partner: ${username}. Rate ${rate}`;
             dispatch(addLog(user, logTypes.TRANSACTION_REMOVE, message))

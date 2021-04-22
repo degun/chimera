@@ -91,9 +91,9 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         }
     })
 
-    function selectPartner(e, {key}){
-        setPartner(key);
-        setCurrentPartner(users.filter(u=>u.id === key)[0]);
+    function selectPartner(e, item){
+        setPartner(item?.key);
+        setCurrentPartner(users.filter(u=>u.id === item?.key)[0]);
     }
 
     function setTheSign(type){
