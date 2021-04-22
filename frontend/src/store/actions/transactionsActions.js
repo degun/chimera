@@ -130,6 +130,7 @@ export const addTransaction = (transaction_type, client_name, amount, amount_pai
             dispatch(addLog(user, logTypes.TRANSACTION_ADD, message))
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         }).catch(e => {
+            console.log({e})
             dispatch({type: actionTypes.TRANSACTIONS_ADD_FAIL, e})
             dispatch({ type: actionTypes.TRANSACTIONS_LOADING, loading: false })
         })
