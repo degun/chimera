@@ -9,7 +9,7 @@ import { logout, refreshToken } from '../../store/actions/authActions';
 import { selectMenu } from '../../store/actions/systemActions';
 import './Menu.sass';
 
-function Menu({logOut, refreshToken, setMenu, token, menu, admin, dashboardLoading, usersLoading, transactionsLoading}){
+function Menu({logOut, refreshToken, setMenu, token, menu, admin, dashboardLoading, usersLoading, transactionsLoading, logsLoading}){
     useEffect(() => {
       const interval = setInterval( () => {
         refreshToken()
@@ -41,7 +41,7 @@ function Menu({logOut, refreshToken, setMenu, token, menu, admin, dashboardLoadi
               <PivotItem iconProps={{iconName: 'People'}} itemKey="0" headerText="Dashboard" onClick={() => setMenu("home")} onRenderItemLink={() => <Link to="/"><Icon iconName={dashboardLoading ? undefined : "Diagnostic"} />{dashboardLoading && <Spinner size={SpinnerSize.small} />} Dashboard</Link>} />
               {admin ? <PivotItem itemKey="1" headerText="Users" onClick={() => setMenu("users")} onRenderItemLink={() => <Link to="/users"><Icon iconName={usersLoading ? undefined : "People"} />{usersLoading && <Spinner size={SpinnerSize.small} />} Users</Link>} /> : null}
               <PivotItem itemKey="2" headerText="Transactions" onClick={() => setMenu("transactions")} onRenderItemLink={() => <Link to="/transactions"><Icon iconName={transactionsLoading ? undefined : "Money"} />{transactionsLoading && <Spinner size={SpinnerSize.small} />} Transactions</Link>} />
-              <PivotItem itemKey="4" headerText="Transactions" onClick={() => setMenu("logs")} onRenderItemLink={() => <Link to="/logs"><Icon iconName="TextDocument" /> Logs</Link>} />
+              <PivotItem itemKey="4" headerText="Transactions" onClick={() => setMenu("logs")} onRenderItemLink={() => <Link to="/logs"><Icon iconName={logsLoading ? undefined : "TextDocument"} />{logsLoading && <Spinner size={SpinnerSize.small} />} Logs</Link>} />
             </Pivot>
             <div>
               {/* <Text variant="large" styles={{root: {verticalAlign: 'middle', color: '#777'}}}>{username} </Text> */}
@@ -66,6 +66,7 @@ const mapStateToProps = state => {
     username: state.auth.username,
     dashboardLoading: state.dashboard.loading,
     usersLoading: state.users.loading,
+    logsLoading: state.logs.loading,
     transactionsLoading: state.transactions.loading,
   }
 }

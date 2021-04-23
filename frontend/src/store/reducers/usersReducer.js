@@ -4,7 +4,8 @@ const initialState = {
     users: [],
     editing: false,
     editingThis: '',
-    adding: false
+    adding: false,
+    searchStr: ''
 }
 
 const getUsersList = (state, action) => {
@@ -49,6 +50,14 @@ const updateUsersList = (state, action) => {
     return {...state, users: newUsers}
 }
 
+const setUsersLoading = (state, action) => {
+    return {...state, loading: action.loading }
+}
+
+const setUsersSearchStr = (state, action) => {
+    return {...state, searchStr: action.searchStr }
+}
+
 const usersReducer = (state = initialState, action) => {
     console.log(action.type);
     switch(action.type){
@@ -63,6 +72,8 @@ const usersReducer = (state = initialState, action) => {
         case types.USERS_END_ADD: return endAdd(state);
         case types.USERS_ADD_SUCCESS: return addSuccess(state, action);
         case types.USERS_UPDATE_USER: return updateUsersList(state, action);
+        case types.USERS_LOADING: return setUsersLoading(state, action);
+        case types.USERS_SET_SEARCH_STRING: return setUsersSearchStr(state, action);
         case types.AUTH_LOGOUT: return {...initialState};
         default: return state;
     }

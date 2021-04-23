@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {getLogs, setFilter, deleteLog} from '../store/actions/logsActions';
+import {setUsersSearchStr} from '../store/actions/usersActions';
 import {selectMenu} from '../store/actions/systemActions';
 import { ActivityItem, Icon, Link, mergeStyleSets } from 'office-ui-fabric-react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { Text } from 'office-ui-fabric-react/lib/Text';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { IconButton } from 'office-ui-fabric-react';
 import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react';
 import { formatText, formatDate } from '../useful';
-import { HOST } from '../config';
 import * as t from '../store/actions/logTypes';
 import './Logs.sass';
 
-const host = HOST.replace("https", "http");
+function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilter, openUser}){
 
-function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilter}){
+    const history = useHistory()
 
     function Log({item}){
         const [hovered, setHovered] = useState(false);
@@ -42,17 +42,10 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
         getLogs()
     }, [getLogs, filters])
 
-    function getUsername(user){
-        if(users.length){
-            const filteredUser = users.filter(u=> u.url === `${host}/api/users/${user}/`);
-            if(filteredUser.length){
-                return "@" + filteredUser[0].username;
-            }else{
-                return "Deleted"
-            }
-        }else{
-            return '';
-        }
+    function goToUser(email){
+        openUser(email);
+        selectMenu("2");
+        history.push('/users')
     }
 
     const classNames = mergeStyleSets({
@@ -66,7 +59,18 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
     });
 
     const items = logs.map(log => {
-        let iconName = '', color= '';
+        let iconName = '', color= '', username = '';
+        const user = users?.filter(u=> u.id === log.user.toString())[0];
+        if(users.length){
+            if(user){
+                username = "@" + user.username;
+            }else{
+                username = "Deleted"
+            }
+        }else{
+            username = '';
+        }
+        
         switch(log.log_type){
             case t.USER_ADD: iconName = 'FollowUser'; color="darkgreen";break;
             case t.USER_REMOVE: iconName = 'UserRemove';color="darkred"; break;
@@ -81,7 +85,7 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
             key: log.id,
             activityDescription: [
               <Text className={classNames.nameText} key={log.id}>{formatText(log.log_type)}</Text>,
-              <Link key={log.id + 'a'}>&nbsp;{getUsername(log.user)}</Link>
+              <Link key={log.id + 'a'} onClick={() => goToUser(user?.username ?? '')}>&nbsp;{username}</Link>
             ],
             activityIcon: <Icon styles={{root:{color}}} iconName={iconName} />,
             comments: [
@@ -98,7 +102,7 @@ function Logs({logs, token, getLogs, remove, selectMenu, users, filters, setFilt
             <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto", marginTop: '20px', marginBottom: '12px' } }}>
                 <DatePicker style={{width: 140}} formatDate={date => formatDate(date)} firstDayOfWeek={DayOfWeek.Monday} maxDate={toDate} placeholder="From date" value={fromDate} onSelectDate={e=> setFilter('fromDate',new Date(new Date(e).setHours(0,0,0,0)))}/>
                 <DatePicker style={{width: 140}} formatDate={date => formatDate(date)} firstDayOfWeek={DayOfWeek.Monday} maxDate={new Date(new Date().setHours(23,59,59,0))} minDate={fromDate} placeholder="To date" value={toDate} onSelectDate={e=> setFilter('toDate',new Date(new Date(e).setHours(23,59,59,0)))}/>
-                <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}} value={message} placeholder="Filter by log text..." onChange={({target}) => setFilter('message',target.value.toLowerCase())} />
+                <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}} value={message} placeholder="Filter by log text..." onChange={e => setFilter('message',e?.target?.value?.toLowerCase() ?? '')} />
             </Stack>
             <div className="logs">
                 {items.map(item => (
@@ -123,6 +127,7 @@ const mapDispatchToProps = dispatch => {
         getLogs: () => dispatch(getLogs()),
         remove: id => dispatch(deleteLog(id)),
         selectMenu: menu => dispatch(selectMenu(menu)),
+        openUser: username => dispatch(setUsersSearchStr(username)),
         setFilter: (filter, value) => dispatch(setFilter(filter, value))
     }
 }

@@ -13,7 +13,7 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { ComboBox } from 'office-ui-fabric-react/lib/index';
 import { selectMenu } from '../store/actions/systemActions';
 import { setToken } from '../store/actions/authActions';
-import { getAllUsers, beginEdit, beginAdd } from '../store/actions/usersActions';
+import { getAllUsers, beginEdit, beginAdd, setUsersSearchStr } from '../store/actions/usersActions';
 import EditUser from '../pjeset/Users/EditUser';
 import AddUser from '../pjeset/Users/AddUser';
 import './Users.sass';
@@ -27,11 +27,10 @@ function sortByKey(array, key, asc) {
     });
 }
 
-function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing, editingThis, adding}){
+function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing, editingThis, adding, searchStr, setSearchStr}){
 
     const [sortkey, setSortkey] = useState("staff");
     const [ascending, setAscending] = useState(true);
-    const [searchStr, setSearchStr] = useState("");
     const [roleFilter, setRoleFilter] = useState("partner");
 
     useEffect(()=>{
@@ -158,7 +157,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             staff: user.is_staff
         }
     }), sortkey, ascending).filter(u => {
-        return (u.email.indexOf(searchStr) !== -1) || (u.username.toLowerCase().indexOf(searchStr) !== -1)
+        return (u.email.indexOf(searchStr.toLowerCase()) !== -1) || (u.username.toLowerCase().indexOf(searchStr.toLowerCase()) !== -1)
     }).filter(u => {
         switch(roleFilter){
             case "partner": return !u.staff;
@@ -215,7 +214,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             <Fabric>
                 <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
                     <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto" } }}>
-                        <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}}  value={searchStr} placeholder="Filter by username or email..." onChange={({target}) => setSearchStr(target.value)} />
+                        <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}}  value={searchStr} placeholder="Filter by username or email..." onChange={e => {if(e)setSearchStr(e.target.value)}} onClear={() => setSearchStr('')} />
                         <ComboBox style={{width: 150}} options={roles} selectedKey={roleFilter} placeholder="Filter by role..." onChange={(e, {key})=> setRoleFilter(key)} />
                     </Stack>
                     <PrimaryButton
@@ -263,7 +262,8 @@ const mapStateToProps = state => {
         users: state.users.users,
         editing: state.users.editing,
         editingThis: state.users.editingThis,
-        adding: state.users.adding
+        adding: state.users.adding,
+        searchStr: state.users.searchStr
     }
 }
 
@@ -273,7 +273,8 @@ const mapDispatchToProps = dispatch => {
         setToken: token => dispatch(setToken(token)),
         getUsers: () => dispatch(getAllUsers()),
         beginEdit: email => dispatch(beginEdit(email)),
-        beginAdd: () => dispatch(beginAdd())
+        beginAdd: () => dispatch(beginAdd()),
+        setSearchStr: str => dispatch(setUsersSearchStr(str))
     }
 }
 

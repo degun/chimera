@@ -48,6 +48,7 @@ export const setFilter = (filter, value) => {
 
 export const getLogs = () => {
     return (dispatch, getState) => {
+        dispatch({type: types.LOGS_LOADING, loading: true})
         const state = getState();
         const {fromDate, toDate, message} = state.logs.filters;
         const {token} = state.auth;
@@ -59,11 +60,13 @@ export const getLogs = () => {
                 type: types.LOGS_GET_DATA,
                 data: res.data
             })
+            dispatch({type: types.LOGS_LOADING, loading: false})
         }).catch(e => {
             console.log(e)
             if(e.response && e.response.status === 401){
                 dispatch(logout());
             }
+            dispatch({type: types.LOGS_LOADING, loading: false})
         });         
     }    
 }

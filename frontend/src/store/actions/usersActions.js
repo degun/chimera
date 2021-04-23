@@ -10,6 +10,7 @@ import * as  logTypes from './logTypes';
 
 export const getAllUsers = () => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING, loading: true})
         const state = getState();
         const {token} = state.auth;
         const bearer = 'Bearer ' + token;
@@ -24,11 +25,13 @@ export const getAllUsers = () => {
                 type: types.USERS_GET_LIST,
                 users
             })
+            dispatch({type: types.USERS_LOADING, loading: false})
         }).catch(e => {
             console.log(e);
             if(e.response && e.response.status === 401){
                 dispatch(logout);
             }
+            dispatch({type: types.USERS_LOADING, loading: false})
         });
     }
 }
@@ -57,30 +60,42 @@ export const endEdit = () => {
     }
 }
 
+export const setUsersSearchStr = searchStr => {
+    return dispatch => {
+        dispatch({type: types.USERS_SET_SEARCH_STRING, searchStr})
+    }
+}
+
 export const updateUserLocally = id => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING, loading: true})
         const state = getState();
         const {token} = state.auth;
         axios.get(`${HOST}/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
             dispatch({type: types.USERS_GET_ONE, data: {...response.data, id: urltoid(response.data.url)}});
+            dispatch({type: types.USERS_LOADING, loading: false})
         }).catch(e => {
             console.log(e);
+            dispatch({type: types.USERS_LOADING, loading: false})
         })
     }
 }
 
 export const updateAdminLocally = () => {
     return (dispatch, getState) => {
+        dispatch({type: types.USERS_LOADING, loading: true})
         const state = getState();
         const {token, id} = state.auth;
         axios.get(`${HOST}/api/users/${id}/`,{
             headers: {"Authorization": 'Bearer ' + token}
         }).then(response=>{
             dispatch({type: types.ADMIN_UPDATE_BALANCE, balance: response.data.partner_data.balance});
+            dispatch({type: types.USERS_LOADING, loading: false})
         }).catch(e => {
             console.log(e);
+            dispatch({type: types.USERS_LOADING, loading: false})
         })
     }
 }
