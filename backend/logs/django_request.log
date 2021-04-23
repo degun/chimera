@@ -1,0 +1,188 @@
+
+2021-04-23 18:15:09,481 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:15:21,969 WARNING django.request Bad Request: /api/auth/login/
+2021-04-23 18:15:46,783 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:15:46,940 WARNING django.request Not Found: /static/admin/css/base.css
+2021-04-23 18:15:46,952 WARNING django.request Not Found: /static/admin/css/nav_sidebar.css
+2021-04-23 18:15:46,959 WARNING django.request Not Found: /static/admin/css/login.css
+2021-04-23 18:15:46,965 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:15:46,974 WARNING django.request Not Found: /static/admin/js/nav_sidebar.js
+2021-04-23 18:15:47,111 WARNING django.request Not Found: /favicon.ico
+2021-04-23 18:15:59,917 WARNING django.request Not Found: /static/admin/css/base.css
+2021-04-23 18:15:59,930 WARNING django.request Not Found: /static/admin/css/nav_sidebar.css
+2021-04-23 18:15:59,937 WARNING django.request Not Found: /static/admin/css/dashboard.css
+2021-04-23 18:15:59,944 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:15:59,950 WARNING django.request Not Found: /static/admin/js/nav_sidebar.js
+2021-04-23 18:16:02,315 WARNING django.request Not Found: /static/admin/css/base.css
+2021-04-23 18:16:02,322 WARNING django.request Not Found: /static/admin/css/nav_sidebar.css
+2021-04-23 18:16:02,326 WARNING django.request Not Found: /static/admin/css/changelists.css
+2021-04-23 18:16:02,358 WARNING django.request Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2021-04-23 18:16:02,363 WARNING django.request Not Found: /static/admin/js/jquery.init.js
+2021-04-23 18:16:02,372 WARNING django.request Not Found: /static/admin/js/core.js
+2021-04-23 18:16:02,378 WARNING django.request Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2021-04-23 18:16:02,382 WARNING django.request Not Found: /static/admin/js/actions.js
+2021-04-23 18:16:02,387 WARNING django.request Not Found: /static/admin/js/urlify.js
+2021-04-23 18:16:02,395 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:16:02,400 WARNING django.request Not Found: /static/admin/js/prepopulate.js
+2021-04-23 18:16:02,404 WARNING django.request Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2021-04-23 18:16:02,433 WARNING django.request Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2021-04-23 18:16:02,448 WARNING django.request Not Found: /static/admin/js/nav_sidebar.js
+2021-04-23 18:16:02,458 WARNING django.request Not Found: /static/admin/img/search.svg
+2021-04-23 18:16:02,463 WARNING django.request Not Found: /static/admin/js/jquery.init.js
+2021-04-23 18:16:02,482 WARNING django.request Not Found: /static/admin/img/icon-yes.svg
+2021-04-23 18:16:02,488 WARNING django.request Not Found: /static/admin/js/core.js
+2021-04-23 18:16:02,513 WARNING django.request Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2021-04-23 18:16:02,528 WARNING django.request Not Found: /static/admin/js/actions.js
+2021-04-23 18:16:02,550 WARNING django.request Not Found: /static/admin/js/urlify.js
+2021-04-23 18:16:02,565 WARNING django.request Not Found: /static/admin/js/prepopulate.js
+2021-04-23 18:16:02,578 WARNING django.request Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2021-04-23 18:16:02,591 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:16:02,599 WARNING django.request Not Found: /static/admin/img/icon-yes.svg
+2021-04-23 18:16:07,878 WARNING django.request Not Found: /static/admin/css/base.css
+2021-04-23 18:16:07,888 WARNING django.request Not Found: /static/admin/css/nav_sidebar.css
+2021-04-23 18:16:07,892 WARNING django.request Not Found: /static/admin/css/forms.css
+2021-04-23 18:16:07,925 WARNING django.request Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2021-04-23 18:16:07,930 WARNING django.request Not Found: /static/admin/js/calendar.js
+2021-04-23 18:16:07,937 WARNING django.request Not Found: /static/admin/js/jquery.init.js
+2021-04-23 18:16:07,942 WARNING django.request Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+2021-04-23 18:16:07,948 WARNING django.request Not Found: /static/admin/js/core.js
+2021-04-23 18:16:07,954 WARNING django.request Not Found: /static/admin/js/inlines.js
+2021-04-23 18:16:07,961 WARNING django.request Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2021-04-23 18:16:07,969 WARNING django.request Not Found: /static/admin/js/SelectBox.js
+2021-04-23 18:16:07,973 WARNING django.request Not Found: /static/admin/js/actions.js
+2021-04-23 18:16:07,982 WARNING django.request Not Found: /static/admin/js/SelectFilter2.js
+2021-04-23 18:16:07,987 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:16:07,993 WARNING django.request Not Found: /static/admin/js/urlify.js
+2021-04-23 18:16:08,003 WARNING django.request Not Found: /static/admin/js/prepopulate.js
+2021-04-23 18:16:08,008 WARNING django.request Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2021-04-23 18:16:08,037 WARNING django.request Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2021-04-23 18:16:08,046 WARNING django.request Not Found: /static/admin/js/prepopulate_init.js
+2021-04-23 18:16:08,062 WARNING django.request Not Found: /static/admin/js/nav_sidebar.js
+2021-04-23 18:16:08,070 WARNING django.request Not Found: /static/admin/js/calendar.js
+2021-04-23 18:16:08,093 WARNING django.request Not Found: /static/admin/img/icon-addlink.svg
+2021-04-23 18:16:08,097 WARNING django.request Not Found: /static/admin/js/change_form.js
+2021-04-23 18:16:08,101 WARNING django.request Not Found: /static/admin/js/jquery.init.js
+2021-04-23 18:16:08,119 WARNING django.request Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+2021-04-23 18:16:08,137 WARNING django.request Not Found: /static/admin/js/core.js
+2021-04-23 18:16:08,152 WARNING django.request Not Found: /static/admin/js/inlines.js
+2021-04-23 18:16:08,171 WARNING django.request Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2021-04-23 18:16:08,188 WARNING django.request Not Found: /static/admin/js/SelectBox.js
+2021-04-23 18:16:08,203 WARNING django.request Not Found: /static/admin/js/actions.js
+2021-04-23 18:16:08,222 WARNING django.request Not Found: /static/admin/js/SelectFilter2.js
+2021-04-23 18:16:08,236 WARNING django.request Not Found: /static/admin/js/urlify.js
+2021-04-23 18:16:08,251 WARNING django.request Not Found: /static/admin/js/prepopulate.js
+2021-04-23 18:16:08,265 WARNING django.request Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2021-04-23 18:16:08,287 WARNING django.request Not Found: /static/admin/css/responsive.css
+2021-04-23 18:16:08,292 WARNING django.request Not Found: /static/admin/js/change_form.js
+2021-04-23 18:16:08,296 WARNING django.request Not Found: /static/admin/js/prepopulate_init.js
+2021-04-23 18:16:34,635 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:16:56,996 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:17:06,810 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:17:51,075 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:17:51,729 WARNING django.request Bad Request: /api/auth-jwt-refresh/
+2021-04-23 18:20:46,498 ERROR django.request Internal Server Error: /api/users/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/degun/projects/chimera/backend/api/views.py", line 30, in create
+    self.update_admin_balance_on_create(request)
+  File "/home/degun/projects/chimera/backend/api/views.py", line 61, in update_admin_balance_on_create
+    admin = UserProfile.objects.get(user_id=admin_id)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 435, in get
+    raise self.model.DoesNotExist(
+api.models.UserProfile.DoesNotExist: UserProfile matching query does not exist.
+2021-04-23 18:21:21,380 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:21:41,506 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:01,750 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:02,571 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:03,138 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:03,782 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:04,822 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:05,551 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:07,214 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:07,965 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:08,566 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:09,200 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:22:09,744 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:23:16,487 WARNING django.request Bad Request: /api/users/
+2021-04-23 18:24:28,326 ERROR django.request Internal Server Error: /api/transactions/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/channels/layers.py", line 65, in _make_backend
+    backend_class = import_string(self.configs[name]["BACKEND"])
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/module_loading.py", line 17, in import_string
+    module = import_module(module_path)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 973, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'channels_redis'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/degun/projects/chimera/backend/api/views.py", line 110, in create
+    serializer.save()
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "/usr/local/lib/python3.8/dist-packages/rest_framework/serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 453, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 726, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 774, in save_base
+    post_save.send(
+  File "/usr/local/lib/python3.8/dist-packages/django/dispatch/dispatcher.py", line 180, in send
+    return [
+  File "/usr/local/lib/python3.8/dist-packages/django/dispatch/dispatcher.py", line 181, in <listcomp>
+    (receiver, receiver(signal=self, sender=sender, **named))
+  File "/home/degun/projects/chimera/backend/api/signals.py", line 22, in announce_create_transaction
+    channel_layer = get_channel_layer()
+  File "/usr/local/lib/python3.8/dist-packages/channels/layers.py", line 362, in get_channel_layer
+    return channel_layers[alias]
+  File "/usr/local/lib/python3.8/dist-packages/channels/layers.py", line 78, in __getitem__
+    self.backends[key] = self.make_backend(key)
+  File "/usr/local/lib/python3.8/dist-packages/channels/layers.py", line 44, in make_backend
+    return self._make_backend(name, config)
+  File "/usr/local/lib/python3.8/dist-packages/channels/layers.py", line 69, in _make_backend
+    raise InvalidChannelLayerError(
+channels.exceptions.InvalidChannelLayerError: Cannot import BACKEND 'channels_redis.core.RedisChannelLayer' specified for default

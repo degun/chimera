@@ -148,11 +148,11 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
             date_joined: moment(new Date(user.date_joined)).fromNow(),
             username: user.username,
             password: user.password,
-            balance: parseFloat(user.partner_data.balance),
-            Wrate: user.partner_data.Wrate,
-            CCrate: user.partner_data.CCrate,
-            BTCrate: user.partner_data.BTCrate,
-            btc: user.partner_data.btc,
+            balance: parseFloat(user?.partner_data?.balance ?? 0),
+            Wrate: user?.partner_data?.Wrate ?? 0,
+            CCrate: user?.partner_data?.CCrate ?? 0,
+            BTCrate: user?.partner_data?.BTCrate ?? 0,
+            btc: !!user?.partner_data?.btc,
             active: user.is_active,
             staff: user.is_staff
         }

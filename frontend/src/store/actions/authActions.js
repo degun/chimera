@@ -79,8 +79,8 @@ export const login = (email, password) => {
                 headers: {'Authorization': `Bearer ${token}`}
             }).then(res => {
                 const {is_active, is_staff, partner_data} = res.data;
-                let balance  = parseFloat(partner_data.balance);
-                let btc  = partner_data.btc;
+                let balance  = parseFloat(partner_data?.balance ?? 0);
+                let btc  = !!partner_data?.btc;
                 if(is_active){
                     dispatch(authSuccess(token, pk, email, username, is_staff, balance, btc));
                 }

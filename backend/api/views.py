@@ -125,21 +125,18 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(status=204)
 
     def update_balances_on_create(self, request):
-        try:
-            admin_id = request.user.pk
-            partner_id = request.data['user']
-            amount = request.data['amount']
-            amount_paid = request.data['amount_paid']
-            admin = UserProfile.objects.get(user_id=admin_id)
-            partner = UserProfile.objects.get(user_id=partner_id)
+        admin_id = request.user.pk
+        partner_id = request.data['user']
+        amount = request.data['amount']
+        amount_paid = request.data['amount_paid']
+        admin = UserProfile.objects.get(user_id=admin_id)
+        partner = UserProfile.objects.get(user_id=partner_id)
 
-            admin.balance = Decimal(admin.balance) + Decimal(amount)
-            partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
+        admin.balance = Decimal(admin.balance) + Decimal(amount)
+        partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
 
-            admin.save()
-            partner.save()
-        except ValueError as e:
-            print ('Value Error')
+        admin.save()
+        partner.save()
 
     def update_balances_on_destroy(self, request):
         admin_id = request.user.pk
