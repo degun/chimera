@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2(bj8hz@#rpn2qi7d=yya2)b-z!%@pggv=u)#(lwut^z)==01i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['api.chimera-finance.com', 'localhost']
 
@@ -182,11 +182,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
@@ -195,11 +190,6 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'django': {
             'handlers': ['file'],
             'level': 'ERROR',
             'propagate': True,
