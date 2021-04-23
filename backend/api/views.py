@@ -43,30 +43,24 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(status=204)
 
     def update_admin_balance_on_delete(self, request):
-        try:
-            admin_id = request.user.pk
-            instance = self.get_object()
-            balance = instance.partner_data.balance
-            transactions = Transaction.objects.filter(user=instance.pk)
-            profit = 0
-            for t in transactions:
-                profit = profit + t.amount - t.amount_paid
-            admin = UserProfile.objects.get(user_id=admin_id)
-            admin.balance = Decimal(admin.balance) - Decimal(balance) - Decimal(profit)
-            admin.save()
-        except ValueError(e):
-            print(e)
+        admin_id = request.user.pk
+        instance = self.get_object()
+        balance = instance.partner_data.balance
+        transactions = Transaction.objects.filter(user=instance.pk)
+        profit = 0
+        for t in transactions:
+            profit = profit + t.amount - t.amount_paid
+        admin = UserProfile.objects.get(user_id=admin_id)
+        admin.balance = Decimal(admin.balance) - Decimal(balance) - Decimal(profit)
+        admin.save()
 
     def update_admin_balance_on_create(self, request):
-        try:
-            admin_id = request.user.pk
-            partner_data = request.data['partner_data']
-            balance = partner_data['balance']
-            admin = UserProfile.objects.get(user_id=admin_id)
-            admin.balance = Decimal(admin.balance) + Decimal(balance)
-            admin.save()
-        except ValueError(e):
-            print(e)
+        admin_id = request.user.pk
+        partner_data = request.data['partner_data']
+        balance = partner_data['balance']
+        admin = UserProfile.objects.get(user_id=admin_id)
+        admin.balance = Decimal(admin.balance) + Decimal(balance)
+        admin.save()
 
     def save(self):
         super(UserProfile, self).save()
@@ -131,39 +125,33 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(status=204)
 
     def update_balances_on_create(self, request):
-        try:
-            admin_id = request.user.pk
-            partner_id = request.data['user']
-            amount = request.data['amount']
-            amount_paid = request.data['amount_paid']
-            admin = UserProfile.objects.get(user_id=admin_id)
-            partner = UserProfile.objects.get(user_id=partner_id)
+        admin_id = request.user.pk
+        partner_id = request.data['user']
+        amount = request.data['amount']
+        amount_paid = request.data['amount_paid']
+        admin = UserProfile.objects.get(user_id=admin_id)
+        partner = UserProfile.objects.get(user_id=partner_id)
 
-            admin.balance = Decimal(admin.balance) + Decimal(amount)
-            partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
+        admin.balance = Decimal(admin.balance) + Decimal(amount)
+        partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
 
-            admin.save()
-            partner.save()
-        except ValueError(e):
-            print(e)
+        admin.save()
+        partner.save()
 
     def update_balances_on_destroy(self, request):
-        try:
-            admin_id = request.user.pk
-            instance = self.get_object()
-            partner_id = instance.user.pk
-            amount = instance.amount
-            amount_paid = instance.amount_paid
-            admin = UserProfile.objects.get(user_id=admin_id)
-            partner = UserProfile.objects.get(user_id=partner_id)
+        admin_id = request.user.pk
+        instance = self.get_object()
+        partner_id = instance.user.pk
+        amount = instance.amount
+        amount_paid = instance.amount_paid
+        admin = UserProfile.objects.get(user_id=admin_id)
+        partner = UserProfile.objects.get(user_id=partner_id)
 
-            admin.balance = Decimal(admin.balance) - Decimal(amount)
-            partner.balance = Decimal(partner.balance) - Decimal(amount_paid)
+        admin.balance = Decimal(admin.balance) - Decimal(amount)
+        partner.balance = Decimal(partner.balance) - Decimal(amount_paid)
 
-            admin.save()
-            partner.save()
-        except ValueError(e):
-            print(e)
+        admin.save()
+        partner.save()
 
     def save(self):
         super(Transaction, self).save()
