@@ -41,7 +41,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
     }, [sign, type, amount]);
 
     useEffect(()=>{
-        setAmountpaid(Math.round( (amount * rate) * 100 + Number.EPSILON ) / 100);
+        setAmountpaid(Math.round( amount * rate * 100 + Number.EPSILON ) / 100);
     }, [amount, rate]);
 
     useEffect(()=>{

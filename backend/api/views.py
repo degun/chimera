@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from django.http import HttpResponse, Http404
 from rest_framework.response import Response
-from decimal import Decimal
+from decimal import Decimal, DecimalException
 from datetime import datetime
 from django.utils.timezone import make_aware
 from api.models import User, Transaction, UserProfile, Log
@@ -125,18 +125,21 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(status=204)
 
     def update_balances_on_create(self, request):
-        admin_id = request.user.pk
-        partner_id = request.data['user']
-        amount = request.data['amount']
-        amount_paid = request.data['amount_paid']
-        admin = UserProfile.objects.get(user_id=admin_id)
-        partner = UserProfile.objects.get(user_id=partner_id)
+        try:
+            admin_id = request.user.pk
+            partner_id = request.data['user']
+            amount = request.data['amount']
+            amount_paid = request.data['amount_paid']
+            admin = UserProfile.objects.get(user_id=admin_id)
+            partner = UserProfile.objects.get(user_id=partner_id)
 
-        admin.balance = Decimal(admin.balance) + Decimal(amount)
-        partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
+            admin.balance = Decimal(admin.balance) + Decimal(amount)
+            partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
 
-        admin.save()
-        partner.save()
+            admin.save()
+            partner.save()
+        except (DecimalException):
+            print(DecimalException)
 
     def update_balances_on_destroy(self, request):
         admin_id = request.user.pk
