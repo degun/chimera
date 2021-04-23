@@ -139,7 +139,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             admin.save()
             partner.save()
         except (DecimalException):
-            print(DecimalException)
+            return DecimalException
 
     def update_balances_on_destroy(self, request):
         admin_id = request.user.pk
