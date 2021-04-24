@@ -2,12 +2,15 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from django.http import HttpResponse, Http404
 from rest_framework.response import Response
-from decimal import Decimal, DecimalException
+from decimal import Decimal as D, getcontext
 from datetime import datetime
 from django.utils.timezone import make_aware
 from api.models import User, Transaction, UserProfile, Log
 from api.serializers import UserSerializer, TransactionSerializer, ClientSerializer, LogSerializer
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser
+
+context = getcontext()
+context.prec = 2
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -51,7 +54,7 @@ class UserViewSet(viewsets.ModelViewSet):
         for t in transactions:
             profit = profit + t.amount - t.amount_paid
         admin = UserProfile.objects.get(user_id=admin_id)
-        admin.balance = Decimal(admin.balance) - Decimal(balance) - Decimal(profit)
+        admin.balance = D(admin.balance) - D(balance) - D(profit)
         admin.save()
 
     def update_admin_balance_on_create(self, request):
@@ -59,7 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
         partner_data = request.data['partner_data']
         balance = partner_data['balance']
         admin = UserProfile.objects.get(user_id=admin_id)
-        admin.balance = Decimal(admin.balance) + Decimal(balance)
+        admin.balance = D(admin.balance) + D(balance)
         admin.save()
 
     def save(self):
@@ -132,8 +135,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         admin = UserProfile.objects.get(user_id=admin_id)
         partner = UserProfile.objects.get(user_id=partner_id)
 
-        admin.balance = Decimal(admin.balance) + Decimal(amount)
-        partner.balance = Decimal(partner.balance) + Decimal(amount_paid)
+        admin.balance = D(admin.balance) + D(amount)
+        partner.balance = D(partner.balance) + D(amount_paid)
 
         admin.save()
         partner.save()
@@ -147,8 +150,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         admin = UserProfile.objects.get(user_id=admin_id)
         partner = UserProfile.objects.get(user_id=partner_id)
 
-        admin.balance = Decimal(admin.balance) - Decimal(amount)
-        partner.balance = Decimal(partner.balance) - Decimal(amount_paid)
+        admin.balance = D(admin.balance) - D(amount)
+        partner.balance = D(partner.balance) - D(amount_paid)
 
         admin.save()
         partner.save()
