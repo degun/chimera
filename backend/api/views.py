@@ -2,15 +2,12 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from django.http import HttpResponse, Http404
 from rest_framework.response import Response
-from decimal import Decimal as D, getcontext
+from decimal import Decimal as D
 from datetime import datetime
 from django.utils.timezone import make_aware
 from api.models import User, Transaction, UserProfile, Log
 from api.serializers import UserSerializer, TransactionSerializer, ClientSerializer, LogSerializer
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser
-
-context = getcontext()
-context.prec = 2
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
