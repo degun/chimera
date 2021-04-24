@@ -41,6 +41,6 @@ class Transaction(models.Model):
 
 class Log(models.Model):
     log_type = models.CharField(max_length=20)
-    message = models.CharField(max_length=1000)
+    message = models.CharField()
     entry_time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', null=True, blank=True, on_delete=models.SET_NULL)
