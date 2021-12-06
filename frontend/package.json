@@ -6,7 +6,6 @@
     "animated-number-react": "^0.0.2",
     "axios": "^0.21.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
     "numeral": "^2.0.6",
     "office-ui-fabric-react": "^7.11.1",
     "react": "^16.8.6",
@@ -20,6 +19,7 @@
     "redux": "^4.0.4",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "sass": "^1.44.0",
     "websocket": "^1.0.29"
   },
   "scripts": {

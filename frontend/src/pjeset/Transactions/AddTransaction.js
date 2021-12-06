@@ -31,6 +31,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
             case "Credit Card": setRate(parseFloat(currentPartner.partner_data.CCrate).toPrecision(2)); break;
             case "BTC": setRate(parseFloat(currentPartner.partner_data.BTCrate).toPrecision(2)); break;
             case "Withdraw": setRate(parseFloat(currentPartner.partner_data.Wrate).toPrecision(2));break;
+            case "Withdraw BTC": setRate(parseFloat(currentPartner.partner_data.BTCrate).toPrecision(2));break;
             case "Payment": setRate(1) ;break;
             default: setRate(1);break;
         }
@@ -68,6 +69,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         { key: 'Credit Card', text: 'Credit Card' },
         { key: 'BTC', text: 'BTC' },
         { key: 'Withdraw', text: 'Withdraw' },
+        { key: 'Withdraw BTC', text: 'Withdraw BTC' },
         { key: 'Payment', text: 'Payment' }
     ];
 
@@ -102,6 +104,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
             case "Credit Card": setSign(1); break;
             case "BTC": setSign(1); break;
             case "Withdraw": setSign(-1);break;
+            case "Withdraw BTC": setSign(-1);break;
             case "Payment": setSign(-1) ;break;
             default: setSign(1);break;
         }
@@ -123,6 +126,7 @@ function AddTransaction({adding, endAdd, add, users, clients}){
         case 'Credit Card': color = '#ffaa44'; break;
         case 'BTC': color = '#8e41be'; break;
         case 'Withdraw': color = '#da3b01'; break;
+        case 'Withdraw BTC': color = '#b43e60'; break;
         case 'Payment': color = '#00b7c3'; break;
         default: color = 'white'; break;
     }

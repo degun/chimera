@@ -195,7 +195,7 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
     function onRenderRow(props){
         return <DetailsRow {...props} styles={{root: {backgroundColor: props.item.staff ? "lightblue" : "white", fontSize: '1.1em'}}} />
     }
-    
+
     let editData;
     editData = data.filter(user => {
         return user.email === editingThis
@@ -205,14 +205,14 @@ function Users({getUsers, selectMenu, beginEdit, beginAdd, token, users, editing
         { key: 'admin', text: 'Admin' },
         { key: 'partner', text: 'Partner' },
     ];
-        
+
     if(!token){
         return <Redirect to="/login" />
     }
     return(
         <div id="users">
-            <Fabric>
-                <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
+            <Fabric style={{width: "100%"}}>
+                <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 1080, padding: "20px 0" } }}>
                     <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto" } }}>
                         <SearchBox styles={{root:{width: 300}}} iconProps={{ iconName: 'Filter', style: {color: 'black'}}}  value={searchStr} placeholder="Filter by username or email..." onChange={e => {if(e)setSearchStr(e.target.value)}} onClear={() => setSearchStr('')} />
                         <ComboBox style={{width: 150}} options={roles} selectedKey={roleFilter} placeholder="Filter by role..." onChange={(e, {key})=> setRoleFilter(key)} />

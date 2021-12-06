@@ -102,7 +102,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
 
     return(
         <div id="dashboard">
-            <Stack className="bar" horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
+            <Stack className="bar" horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 1080, padding: "20px 0" } }}>
                 <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto" } }}>
                     {admin ? <div className="combo"><ComboBox autoComplete="on" selectedKey={selectedPartner} options={partnersDropdown} placeholder="Partner..." onChange={(e, e2) => setFilter('partner',e2.key)} style={{width: 140}} />{selectedPartner ? <span className="clear" onClick={()=>setFilter('partner', null)}>Clear</span> : null}</div> : null}
                     <DatePicker style={{width: 140}} formatDate={date => formatDate(date)} firstDayOfWeek={DayOfWeek.Monday} maxDate={toDate} placeholder="From date" value={fromDate} onSelectDate={e=> {setFilter('fromDate',new Date(new Date(e).setHours(0,0,0,0))); setFilter('alltime', false)}}/>

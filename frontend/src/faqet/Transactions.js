@@ -39,7 +39,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
             setFilter('partners', users.filter(u=> !u.is_staff).map(({id}) => id));
         }
         if(!types.length){
-            setFilter('types', ['Wire', 'Credit Card', 'BTC', 'Withdraw', 'Payment']);
+            setFilter('types', ['Wire', 'Credit Card', 'BTC', 'Withdraw', 'Withdraw BTC', 'Payment']);
         }
     }, [setFilter, users, partners.length, types.length])
 
@@ -56,6 +56,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
         { key: 'Credit Card', text: 'Credit Card', selected: types.includes('Credit Card') },
         { key: 'BTC', text: 'BTC', selected: types.includes('BTC') },
         { key: 'Withdraw', text: 'Withdraw', selected: types.includes('Withdraw') },
+        { key: 'Withdraw BTC', text: 'Withdraw BTC', selected: types.includes('Withdraw BTC') },
         { key: 'Payment', text: 'Payment', selected: types.includes('Payment') }
     ];
 
@@ -293,6 +294,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
             case 'Credit Card': color = '#ffaa44'; break;
             case 'BTC': color = '#8e41be'; break;
             case 'Withdraw': color = '#da3b01'; break;
+            case 'Withdraw BTC': color = '#b43e60'; break;
             case 'Payment': color = '#00b7c3'; row.item.amount = ''; row.item.rate = ''; break;
             default: color = 'white'; break;
         }
@@ -315,7 +317,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
 
     let data = []
 
-    data = transactions.filter(({transaction_type}) => (!admin && !btc) ? transaction_type !== 'BTC' : true ).map(t => {
+    data = transactions.filter(({transaction_type}) => (!admin && !btc) ? (transaction_type !== 'BTC' && transaction_type !== 'Withdraw BTC') : true ).map(t => {
         return {
             id: t.id,
             transaction_type: t.transaction_type,
@@ -366,7 +368,7 @@ function Transactions ({selectMenu, beginAdd, token, users, admin, adding, editi
     return(
         <div id="transactions">
             <Fabric>
-                <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 960, padding: "20px 0" } }}>
+                <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: 20 }} styles={{ root: { width: 1080, padding: "20px 0" } }}>
                     <Stack horizontal horizontalAlign="auto" tokens={{ childrenGap: 20 }} styles={{ root: { width: "auto" } }}>
                         <Dropdown
                             placeholder="Type"
