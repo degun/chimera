@@ -52,7 +52,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                 cc: round2(partnerData.filter(p => p.entry_time === d).filter(d => d.transaction_type === "Credit Card").reduce((acc, a)=>{
                     return parseFloat(a.amount) + acc
                 }, 0)),
-                btc: round2(partnerData.filter(p => p.entry_time === d).filter(d => d.transaction_type === "BTC").reduce((acc, a)=>{
+                btc: round2(partnerData.filter(p => p.entry_time === d).filter(d => d.transaction_type === "BTC" || d.transaction_type === "Withdraw BTC").reduce((acc, a)=>{
                     return parseFloat(a.amount) + acc
                 }, 0)),
                 profit: round2(partnerData.filter(p => p.entry_time === d).reduce((da, a)=>{
@@ -76,7 +76,7 @@ function Dashboard({admin, balance, users, setFilter, filters, getData, data, pa
                 cc: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => d.transaction_type === "Credit Card").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
-                btc: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => d.transaction_type === "BTC").reduce((accumulator, a)=>{
+                btc: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).filter(d => d.transaction_type === "BTC" || d.transaction_type === "Withdraw BTC").reduce((accumulator, a)=>{
                     return parseFloat(a.amount) + accumulator
                 }, 0)),
                 profit: round2(d.filter(d => parseInt(d.user) === parseInt(p.id)).reduce((accumulator, a)=>{
