@@ -41,7 +41,7 @@ cryptography==36.0.0
 daphne==3.0.2
 distlib==0.3.0
 distro==1.4.0
-Django==2.2.6
+Django==2.2.27
 -e git+git://github.com/dryice/django-api-key.git@6fbd938361f0214ad745af2f0c8cbb829a688967#egg=django_api_key
 django-automated-logging==5.0.1
 django-channels==0.7.0
