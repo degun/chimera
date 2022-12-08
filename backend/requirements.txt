@@ -27,7 +27,7 @@ CacheControl==0.12.6
 cached-property==1.5.1
 celery==5.2.2
 cement==2.8.2
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.15.0
 cfn-flip==1.2.3
 channels==3.0.4
