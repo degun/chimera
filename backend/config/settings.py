@@ -95,14 +95,7 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': '5432'
     # },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'chimera',
-        'USER': 'degun',
-        'PASSWORD': 'bhEztZ4p0FST',
-        'HOST': 'ep-solitary-paper-a23mztn1.eu-central-1.aws.neon.tech',
-        'PORT': '5432'
-    },
+    'default': 'postgresql://degun:bhEztZ4p0FST@ep-solitary-paper-a23mztn1.eu-central-1.aws.neon.tech/chimera?sslmode=require',
 }
 
 
