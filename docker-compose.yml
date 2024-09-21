@@ -2,15 +2,13 @@ services:
   backend:
     build:
       context: ./backend
-    container_name: django_app
     ports:
       - "8017:8017"
 
   frontend:
     build:
       context: ./frontend
-    container_name: frontend_app
     ports:
       - "3017:3017"
     depends_on:
-      - serviceName: backend
+      - backend
