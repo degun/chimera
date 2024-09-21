@@ -25,7 +25,7 @@ SECRET_KEY = '2(bj8hz@#rpn2qi7d=yya2)b-z!%@pggv=u)#(lwut^z)==01i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.chimera-finance.com', 'localhost']
+ALLOWED_HOSTS = ['api.chimera-finance.com', 'apichimera.crmapp.org', 'localhost']
 
 
 # Application definition

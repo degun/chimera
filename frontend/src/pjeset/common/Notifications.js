@@ -6,10 +6,11 @@ import { Text } from 'office-ui-fabric-react/lib/Text';
 import { formatText } from '../../useful';
 import { getAllTransactions } from '../../store/actions/transactionsActions';
 import { updateAdminLocally } from '../../store/actions/usersActions';
+import { WS } from '../../config';
 import './Notifications.sass';
 
 function Notifications({token, getTransactions, updateThisUser}){
-    const client = w3cwebsocket(`wss://api.chimera-finance.com/notifications/?${token}`);
+    const client = w3cwebsocket(`${WS}/?${token}`);
     const [anchor, setAnchor] = useState(null);
     const [notifications, setNotifications] = useState([]);
 
