@@ -87,12 +87,20 @@ ASGI_APPLICATION = "config.asgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'bookkeeping',
+    #     'USER': 'degun',
+    #     'PASSWORD': 'Ashkla123',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432'
+    # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bookkeeping',
+        'NAME': 'chimera',
         'USER': 'degun',
-        'PASSWORD': 'Ashkla123',
-        'HOST': 'localhost',
+        'PASSWORD': 'bhEztZ4p0FST',
+        'HOST': 'ep-solitary-paper-a23mztn1.eu-central-1.aws.neon.tech',
         'PORT': '5432'
     },
 }
