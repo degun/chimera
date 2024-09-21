@@ -95,7 +95,7 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': '5432'
     # },
-    'default': 'postgresql://degun:bhEztZ4p0FST@ep-solitary-paper-a23mztn1.eu-central-1.aws.neon.tech/chimera?sslmode=require',
+    'default': env.db('DB_URL'),
 }
 
 
