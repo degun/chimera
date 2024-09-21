@@ -12,3 +12,5 @@ services:
     container_name: frontend_app
     ports:
       - "3017:3017"
+    depends_on:
+      - serviceName: backend
