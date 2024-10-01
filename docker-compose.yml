@@ -21,5 +21,6 @@ services:
     ports:
       - "6379:6379"
 
-  volumes:
-    redis_data: {}
+volumes:
+  redis_data:
+    driver: local
