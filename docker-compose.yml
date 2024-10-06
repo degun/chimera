@@ -6,7 +6,6 @@ services:
       - "8017:8017"
     depends_on:
       - redis
-
   frontend:
     build:
       context: ./frontend
@@ -15,12 +14,10 @@ services:
     depends_on:
       - backend
       - redis
-
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-
 volumes:
   redis_data:
     driver: local
